@@ -22,6 +22,7 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
@@ -49,7 +50,7 @@ public class NewsListFragment extends Fragment implements NewsListener {
     }
 
 
-    public void loadNews(){
+    public void loadNews() {
 
         Constants constants = new Constants();
         Retrofit retrofit = new Retrofit.Builder()
@@ -58,44 +59,61 @@ public class NewsListFragment extends Fragment implements NewsListener {
                 .build();
 
         ApikeyService service = retrofit.create(ApikeyService.class);
-        final Call<QueryResult> repos = service.listRepos("us",BuildConfig.ApiKey);
+        final Call<QueryResult> repos = service.listRepos("us", BuildConfig.ApiKey);
 
         repos.enqueue(new Callback<QueryResult>() {
             @Override
             public void onResponse(Call<QueryResult> call, Response<QueryResult> response) {
 
 
-                newsList= response.body().getArticles();
+                newsList = response.body().getArticles();
                 adapter.setNewsList(newsList);
-                  adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
 
             }
 
             @Override
             public void onFailure(Call<QueryResult> call, Throwable t) {
-                System.out.println("REC ERR -" +t.getLocalizedMessage());
+                System.out.println("REC ERR -" + t.getLocalizedMessage());
             }
         });
 
     }
 
 
-    public void init(View view){
+    public void init(View view) {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        adapter= new NewsAdapter(newsList, (NewsListener) this);
+        adapter = new NewsAdapter(newsList, (NewsListener) this);
         //Associer adapteur et orientation elements
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
 
+
     @Override
     public void onShare(News news) {
-        Uri image=Uri.parse(news.getUrlToImage());
+        Uri image = Uri.parse(news.getUrlToImage());
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, news.getTitle()+"  "+news.getDescription()+"  "+image);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, news.getTitle() + "  " + news.getDescription() + "  " + image);
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
+    }
+
+    @Override
+    public void onSelect(News news) {
+        Fragment fragment = new NewsSingleFragment();
+        Bundle arguments = new Bundle();
+        arguments.putParcelable( "myNews" , news);
+        fragment.setArguments(arguments);
+        replaceFragment(fragment);
+    }
+
+    public void replaceFragment(Fragment someFragment) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, someFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

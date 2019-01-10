@@ -68,10 +68,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             title.setText(news.getTitle());
             description.setText(news.getDescription());
             Picasso.get().load(news.getUrlToImage()).fit().centerCrop().into(image);
+
             share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listener.onShare(news);
+                }
+            });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onSelect(news);
                 }
             });
         }
