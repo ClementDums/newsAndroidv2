@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.clt.dumas.clem.news.R;
+import com.clt.dumas.clem.news.listeners.NewsListener;
 import com.clt.dumas.clem.news.model.News;
 import com.squareup.picasso.Picasso;
 
@@ -17,9 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
     private List<News> newsList;
-    public NewsAdapter(List<News> newsList) {
+    NewsListener listener;
+    public NewsAdapter(List<News> newsList, NewsListener listener) {
 
         this.newsList = newsList;
+        this.listener=listener;
     }
 
     public void setNewsList(List<News> newsList) {
@@ -68,7 +71,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    listener.onShare(news);
                 }
             });
         }

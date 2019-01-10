@@ -1,15 +1,19 @@
 package com.clt.dumas.clem.news.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.clt.dumas.clem.news.BuildConfig;
 import com.clt.dumas.clem.news.QueryResult;
 import com.clt.dumas.clem.news.R;
 import com.clt.dumas.clem.news.adapters.NewsAdapter;
 import com.clt.dumas.clem.news.constants.Constants;
+import com.clt.dumas.clem.news.listeners.NewsListener;
 import com.clt.dumas.clem.news.model.News;
 import com.clt.dumas.clem.news.networks.ApikeyService;
 
@@ -26,9 +30,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class NewsListFragment extends Fragment {
+public class NewsListFragment extends Fragment implements NewsListener {
 
-    private List<News> NewsList = new ArrayList<>();
+    private List<News> newsList = new ArrayList<>();
     NewsAdapter adapter;
 
     @Override
@@ -61,8 +65,8 @@ public class NewsListFragment extends Fragment {
             public void onResponse(Call<QueryResult> call, Response<QueryResult> response) {
 
 
-                NewsList= response.body().getArticles();
-                adapter.setNewsList(NewsList);
+                newsList= response.body().getArticles();
+                adapter.setNewsList(newsList);
                   adapter.notifyDataSetChanged();
 
             }
@@ -78,10 +82,20 @@ public class NewsListFragment extends Fragment {
 
     public void init(View view){
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        adapter= new NewsAdapter(NewsList);
+        adapter= new NewsAdapter(newsList, (NewsListener) this);
         //Associer adapteur et orientation elements
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onShare(News news) {
+        Uri image=Uri.parse(news.getUrlToImage());
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, news.getTitle()+"  "+news.getDescription()+"  "+image);
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
     }
 }
