@@ -1,18 +1,18 @@
 package com.clt.dumas.clem.news.viewmodels;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-
 import com.clt.dumas.clem.news.BuildConfig;
 import com.clt.dumas.clem.news.QueryResult;
+import com.clt.dumas.clem.news.database.DatabaseHelper;
 import com.clt.dumas.clem.news.model.News;
 import com.clt.dumas.clem.news.networks.ApikeyService;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import bolts.Task;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,11 +59,21 @@ public class NewsViewModel extends ViewModel {
 
     }
 
-    public void setSelected(News news){
+    public void saveNews(final List<News> newsList) {
+
+        Task.callInBackground((Callable<Void>) () -> {
+            DatabaseHelper.getDatabase().newsDao().insertAll(newsList);
+            List<News> news= DatabaseHelper.getDatabase().newsDao().getAll();
+            System.out.println(news);
+            return null;
+        });
+    }
+
+    public void setSelected(News news) {
         selected.setValue(news);
     }
 
-    public LiveData<News> getSelected(){
+    public LiveData<News> getSelected() {
         return selected;
     }
 }

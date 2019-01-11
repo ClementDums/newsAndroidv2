@@ -1,25 +1,12 @@
 package com.clt.dumas.clem.news;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
-import com.clt.dumas.clem.news.constants.Constants;
-import com.clt.dumas.clem.news.database.NewsDatabase;
-import com.clt.dumas.clem.news.database.daos.NewsDao;
+import com.clt.dumas.clem.news.database.DatabaseHelper;
 import com.clt.dumas.clem.news.fragments.NewsListFragment;
-import com.clt.dumas.clem.news.model.News;
-import com.clt.dumas.clem.news.networks.ApikeyService;
-
-import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.room.Room;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        DatabaseHelper.init(this);
 
         //CALL FRAGMENTS
 
