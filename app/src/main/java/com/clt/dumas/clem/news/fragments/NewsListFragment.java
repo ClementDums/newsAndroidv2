@@ -17,6 +17,7 @@ import com.clt.dumas.clem.news.database.NewsDatabase;
 import com.clt.dumas.clem.news.listeners.NewsListener;
 import com.clt.dumas.clem.news.model.News;
 import com.clt.dumas.clem.news.networks.ApikeyService;
+import com.clt.dumas.clem.news.viewmodels.NewsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,9 @@ import java.util.concurrent.Callable;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -37,59 +41,39 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NewsListFragment extends Fragment implements NewsListener {
-
+    NewsViewModel viewModel = new NewsViewModel();
     private List<News> newsList = new ArrayList<>();
     NewsAdapter adapter;
+    private NewsViewModel model;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.loadNews();
+//creer nouveau viewmodel ou charger un existant
+        model= ViewModelProviders.of(this).get(NewsViewModel.class);
     }
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.news_list_fragment, container, false);
         init(view);
 
 
-
-
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        model.getnews().observe(this, newsList->{
+            adapter.setNewsList(newsList);
+            adapter.notifyDataSetChanged();
 
-    public void loadNews() {
-
-        Constants constants = new Constants();
-        Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://newsapi.org/v2/")
-                .build();
-
-        ApikeyService service = retrofit.create(ApikeyService.class);
-        final Call<QueryResult> repos = service.listRepos("us", BuildConfig.ApiKey);
-
-        repos.enqueue(new Callback<QueryResult>() {
-            @Override
-            public void onResponse(Call<QueryResult> call, Response<QueryResult> response) {
-
-
-                newsList = response.body().getArticles();
-                adapter.setNewsList(newsList);
-                adapter.notifyDataSetChanged();
-
-                saveNews(newsList);
-
-            }
-
-
-            @Override
-            public void onFailure(Call<QueryResult> call, Throwable t) {
-                System.out.println("REC ERR -" + t.getLocalizedMessage());
-            }
+            saveNews(newsList);
         });
-
     }
+
+
     public void saveNews(final List<News> newsList){
         Task.callInBackground(new Callable<Object>() {
             public List<News> call(){
@@ -108,7 +92,7 @@ public class NewsListFragment extends Fragment implements NewsListener {
         },Task.UI_THREAD_EXECUTOR);
     }
 
-    public void init(View view) {
+    private void init(View view) {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         adapter = new NewsAdapter(newsList, (NewsListener) this);
         //Associer adapteur et orientation elements
@@ -137,8 +121,11 @@ public class NewsListFragment extends Fragment implements NewsListener {
         replaceFragment(fragment);
     }
 
-    public void replaceFragment(Fragment someFragment) {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+    private void replaceFragment(Fragment someFragment) {
+        FragmentTransaction transaction = null;
+        if (getFragmentManager() != null) {
+            transaction = getFragmentManager().beginTransaction();
+        }
         transaction.replace(R.id.fragment_container, someFragment);
         transaction.addToBackStack(null);
         transaction.commit();
