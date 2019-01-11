@@ -3,10 +3,26 @@ package com.clt.dumas.clem.news.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
+
 public class News implements Parcelable {
-    String title;
-    String description;
-    String urlToImage;
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+
+    private String title;
+    private String description;
+    private String urlToImage;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public News(String title, String description, String urlToImage) {
         this.title = title;
@@ -42,7 +58,10 @@ public class News implements Parcelable {
     @Override
     public String toString() {
         return "News{" +
-                "title='" + title + '\'' +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", urlToImage='" + urlToImage + '\'' +
                 '}';
     }
 
