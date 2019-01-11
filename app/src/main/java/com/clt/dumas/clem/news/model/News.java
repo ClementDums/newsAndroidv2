@@ -11,10 +11,18 @@ import androidx.room.PrimaryKey;
 public class News implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     public int id;
-
+    boolean like =false;
     private String title;
     private String description;
     private String urlToImage;
+
+    public boolean isLike() {
+        return like;
+    }
+
+    public void setLike(boolean like) {
+        this.like = like;
+    }
 
     public int getId() {
         return id;

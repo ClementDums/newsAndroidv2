@@ -84,10 +84,12 @@ public class NewsListFragment extends Fragment implements NewsListener {
 
         model.setSelected(news);
         Fragment fragment = new NewsSingleFragment();
-//        Bundle arguments = new Bundle();
-//        arguments.putParcelable( "myNews" , news);
-//        fragment.setArguments(arguments);
         replaceFragment(fragment);
+    }
+
+    @Override
+    public void onLike(News news) {
+
     }
 
     private void replaceFragment(Fragment someFragment) {

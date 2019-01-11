@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.clt.dumas.clem.news.R;
 import com.clt.dumas.clem.news.listeners.NewsListener;
@@ -55,12 +56,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         TextView description;
         ImageView image;
         ImageView share;
+        ImageView like;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.name);
             description= itemView.findViewById(R.id.description);
             image=itemView.findViewById(R.id.imageNews);
             share=itemView.findViewById(R.id.share);
+            like=itemView.findViewById(R.id.like);
         }
 
         public void bind(final News news) {
@@ -69,19 +72,28 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             description.setText(news.getDescription());
             Picasso.get().load(news.getUrlToImage()).fit().centerCrop().into(image);
 
-            share.setOnClickListener(new View.OnClickListener() {
+            share.setOnClickListener(v -> listener.onShare(news));
+
+            itemView.setOnClickListener(v -> listener.onSelect(news));
+            if(news.isLike()){
+                like.setImageResource(R.drawable.ic_like_true);
+            } else {
+                like.setImageResource(R.drawable.ic_action_name);
+            }
+
+            like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onShare(news);
+                    if(!news.isLike()) {
+                        news.setLike(true);
+                        like.setImageResource(R.drawable.ic_like_true);
+                    } else {
+                        news.setLike(false);
+                        like.setImageResource(R.drawable.ic_action_name);
+                    }
                 }
             });
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onSelect(news);
-                }
-            });
         }
     }
 }

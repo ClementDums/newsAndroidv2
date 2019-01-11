@@ -27,6 +27,7 @@
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:paddingLeft="20dp"
+           android:paddingBottom="30dp"
            android:paddingRight="20dp">
 
            <androidx.appcompat.widget.AppCompatImageView
@@ -77,12 +78,24 @@
                android:layout_marginEnd="20dp"
                android:layout_marginRight="20dp"
                android:layout_marginBottom="8dp"
-               android:layout_marginTop="20dp"
+               android:layout_marginTop="40dp"
                app:layout_constraintBottom_toBottomOf="parent"
                app:layout_constraintEnd_toEndOf="parent"
                app:layout_constraintTop_toBottomOf="@+id/description"
                app:layout_constraintVertical_bias="1.0"
                app:srcCompat="?attr/actionModeShareDrawable" />
+
+           <ImageView
+               android:id="@+id/like"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="20dp"
+               android:layout_marginLeft="20dp"
+               android:layout_marginTop="40dp"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@+id/description"
+               app:srcCompat="@drawable/ic_action_name" />
+
 
        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
