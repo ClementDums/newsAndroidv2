@@ -49,8 +49,9 @@ public class NewsListFragment extends Fragment implements NewsListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//creer nouveau viewmodel ou charger un existant
-        model= ViewModelProviders.of(this).get(NewsViewModel.class);
+
+        //creer nouveau viewmodel ou charger un existant
+        model= ViewModelProviders.of(getActivity()).get(NewsViewModel.class);
     }
 
 
@@ -114,10 +115,12 @@ public class NewsListFragment extends Fragment implements NewsListener {
 
     @Override
     public void onSelect(News news) {
+
+        model.setSelected(news);
         Fragment fragment = new NewsSingleFragment();
-        Bundle arguments = new Bundle();
-        arguments.putParcelable( "myNews" , news);
-        fragment.setArguments(arguments);
+//        Bundle arguments = new Bundle();
+//        arguments.putParcelable( "myNews" , news);
+//        fragment.setArguments(arguments);
         replaceFragment(fragment);
     }
 

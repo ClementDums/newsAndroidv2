@@ -21,6 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NewsViewModel extends ViewModel {
     private MutableLiveData<List<News>> newsLiveData;
+    private MutableLiveData<News> selected = new MutableLiveData<>();
 
     public LiveData<List<News>> getnews() {
         if (newsLiveData == null) {
@@ -58,7 +59,11 @@ public class NewsViewModel extends ViewModel {
 
     }
 
-    public void setSelected(){
+    public void setSelected(News news){
+        selected.setValue(news);
+    }
 
+    public LiveData<News> getSelected(){
+        return selected;
     }
 }
