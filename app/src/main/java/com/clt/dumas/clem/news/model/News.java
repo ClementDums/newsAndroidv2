@@ -2,6 +2,7 @@ package com.clt.dumas.clem.news.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -11,7 +12,7 @@ import androidx.room.PrimaryKey;
 public class News implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     public int id;
-    boolean like =false;
+    private boolean like =false;
     private String title;
     private String description;
     private String urlToImage;
@@ -42,9 +43,9 @@ public class News implements Parcelable {
         return urlToImage;
     }
 
-    public void setUrlToImage(String urlToImage) {
-        this.urlToImage = urlToImage;
-    }
+//    public void setUrlToImage(String urlToImage) {
+//        this.urlToImage = urlToImage;
+//    }
 
     public String getDescription() {
         return description;
@@ -63,6 +64,7 @@ public class News implements Parcelable {
     }
 
 
+    @NonNull
     @Override
     public String toString() {
         return "News{" +

@@ -3,6 +3,7 @@ package com.clt.dumas.clem.news.fragments;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.clt.dumas.clem.news.viewmodels.NewsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -24,9 +26,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class NewsListFragment extends Fragment implements NewsListener {
-    NewsViewModel viewModel = new NewsViewModel();
     private List<News> newsList = new ArrayList<>();
-    NewsAdapter adapter;
+    private NewsAdapter adapter;
     private NewsViewModel model;
 
     @Override
@@ -34,11 +35,11 @@ public class NewsListFragment extends Fragment implements NewsListener {
         super.onCreate(savedInstanceState);
 
         //creer nouveau viewmodel ou charger un existant
-        model= ViewModelProviders.of(getActivity()).get(NewsViewModel.class);
+        model= ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(NewsViewModel.class);
     }
 
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.news_list_fragment, container, false);
         init(view);
 
@@ -61,7 +62,7 @@ public class NewsListFragment extends Fragment implements NewsListener {
 
     private void init(View view) {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        adapter = new NewsAdapter(newsList, (NewsListener) this);
+        adapter = new NewsAdapter(newsList, this);
         //Associer adapteur et orientation elements
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -87,18 +88,18 @@ public class NewsListFragment extends Fragment implements NewsListener {
         replaceFragment(fragment);
     }
 
-    @Override
-    public void onLike(News news) {
-
-    }
 
     private void replaceFragment(Fragment someFragment) {
         FragmentTransaction transaction = null;
         if (getFragmentManager() != null) {
             transaction = getFragmentManager().beginTransaction();
         }
-        transaction.replace(R.id.fragment_container, someFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        if (transaction != null) {
+            transaction.replace(R.id.fragment_container, someFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
+
+
     }
 }

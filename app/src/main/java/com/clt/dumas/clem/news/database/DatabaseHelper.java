@@ -1,12 +1,6 @@
 package com.clt.dumas.clem.news.database;
 
 import android.content.Context;
-
-import com.clt.dumas.clem.news.model.News;
-
-import java.util.List;
-import java.util.concurrent.Callable;
-
 import androidx.room.Room;
 import bolts.Task;
 

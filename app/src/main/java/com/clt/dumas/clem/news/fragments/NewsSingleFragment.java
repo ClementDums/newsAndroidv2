@@ -6,28 +6,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.clt.dumas.clem.news.R;
-import com.clt.dumas.clem.news.model.News;
 import com.clt.dumas.clem.news.viewmodels.NewsViewModel;
 import com.squareup.picasso.Picasso;
+
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 public class NewsSingleFragment extends Fragment {
     private NewsViewModel model;
-    TextView titleTv;
-    TextView descriptionTv;
-    ImageView image;
+    private TextView titleTv;
+    private TextView descriptionTv;
+    private ImageView image;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        model= ViewModelProviders.of(getActivity()).get(NewsViewModel.class);
+        model= ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(NewsViewModel.class);
     }
 
     @Nullable

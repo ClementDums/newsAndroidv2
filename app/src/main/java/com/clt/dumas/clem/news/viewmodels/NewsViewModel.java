@@ -1,5 +1,7 @@
 package com.clt.dumas.clem.news.viewmodels;
 
+import android.support.annotation.NonNull;
+
 import com.clt.dumas.clem.news.BuildConfig;
 import com.clt.dumas.clem.news.QueryResult;
 import com.clt.dumas.clem.news.database.DatabaseHelper;
@@ -25,7 +27,7 @@ public class NewsViewModel extends ViewModel {
 
     public LiveData<List<News>> getnews() {
         if (newsLiveData == null) {
-            newsLiveData = new MutableLiveData<List<News>>();
+            newsLiveData = new MutableLiveData<>();
 
             loadNews();
         }
@@ -43,16 +45,19 @@ public class NewsViewModel extends ViewModel {
 
         repos.enqueue(new Callback<QueryResult>() {
             @Override
-            public void onResponse(Call<QueryResult> call, Response<QueryResult> response) {
+            public void onResponse(@NonNull Call<QueryResult> call, @NonNull Response<QueryResult> response) {
 
-                List<News> news = response.body().getArticles();
+                List<News> news = null;
+                if (response.body() != null) {
+                    news = response.body().getArticles();
+                }
 
                 newsLiveData.setValue(news);
             }
 
 
             @Override
-            public void onFailure(Call<QueryResult> call, Throwable t) {
+            public void onFailure(@NonNull Call<QueryResult> call, @NonNull Throwable t) {
                 System.out.println("REC ERR -" + t.getLocalizedMessage());
             }
         });

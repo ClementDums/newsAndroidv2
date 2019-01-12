@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.clt.dumas.clem.news.R;
 import com.clt.dumas.clem.news.listeners.NewsListener;
@@ -19,11 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
     private List<News> newsList;
-    NewsListener listener;
+    private NewsListener listener;
+
     public NewsAdapter(List<News> newsList, NewsListener listener) {
 
         this.newsList = newsList;
-        this.listener=listener;
+        this.listener = listener;
     }
 
     public void setNewsList(List<News> newsList) {
@@ -31,14 +31,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     }
 
 
-
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View view = inflater.inflate(R.layout.news_list_item, viewGroup, false);
-        MyViewHolder vh = new MyViewHolder(view);
-        return vh;
+        return new MyViewHolder(view);
     }
 
     @Override
@@ -57,16 +55,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         ImageView image;
         ImageView share;
         ImageView like;
-        public MyViewHolder(@NonNull View itemView) {
+
+        MyViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.name);
-            description= itemView.findViewById(R.id.description);
-            image=itemView.findViewById(R.id.imageNews);
-            share=itemView.findViewById(R.id.share);
-            like=itemView.findViewById(R.id.like);
+            description = itemView.findViewById(R.id.description);
+            image = itemView.findViewById(R.id.imageNews);
+            share = itemView.findViewById(R.id.share);
+            like = itemView.findViewById(R.id.like);
         }
 
-        public void bind(final News news) {
+        void bind(final News news) {
 
             title.setText(news.getTitle());
             description.setText(news.getDescription());
@@ -75,22 +74,20 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             share.setOnClickListener(v -> listener.onShare(news));
 
             itemView.setOnClickListener(v -> listener.onSelect(news));
-            if(news.isLike()){
+            if (news.isLike()) {
                 like.setImageResource(R.drawable.ic_like_true);
             } else {
                 like.setImageResource(R.drawable.ic_action_name);
             }
 
-            like.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(!news.isLike()) {
-                        news.setLike(true);
-                        like.setImageResource(R.drawable.ic_like_true);
-                    } else {
-                        news.setLike(false);
-                        like.setImageResource(R.drawable.ic_action_name);
-                    }
+            like.setOnClickListener(v -> {
+                if (!news.isLike()) {
+                    news.setLike(true);
+                    like.setImageResource(R.drawable.ic_like_true);
+
+                } else {
+                    news.setLike(false);
+                    like.setImageResource(R.drawable.ic_action_name);
                 }
             });
 
