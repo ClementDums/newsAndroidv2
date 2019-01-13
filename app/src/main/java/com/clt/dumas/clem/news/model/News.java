@@ -16,6 +16,15 @@ public class News implements Parcelable {
     private String title;
     private String description;
     private String urlToImage;
+    private String publishedAt;
+
+    public String getPublishedAt() {
+        return publishedAt;
+    }
+
+    public void setPublishedAt(String publishedAt) {
+        this.publishedAt = publishedAt;
+    }
 
     public boolean isLike() {
         return like;
@@ -33,11 +42,13 @@ public class News implements Parcelable {
         this.id = id;
     }
 
-    public News(String title, String description, String urlToImage) {
+    public News(String title, String description, String urlToImage, String publishedAt) {
         this.title = title;
         this.description = description;
         this.urlToImage = urlToImage;
+        this.publishedAt = publishedAt;
     }
+
 
     public String getUrlToImage() {
         return urlToImage;

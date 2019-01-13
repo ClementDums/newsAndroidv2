@@ -2,8 +2,9 @@ package com.clt.dumas.clem.news;
 
 import android.os.Bundle;
 
-import com.clt.dumas.clem.news.database.DatabaseHelper;
+import com.clt.dumas.clem.news.helpers.DatabaseHelper;
 import com.clt.dumas.clem.news.fragments.NewsListFragment;
+import com.clt.dumas.clem.news.helpers.InternetStatusHelper;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -14,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        InternetStatusHelper.init(this);
         DatabaseHelper.init(this);
 
         //CALL FRAGMENTS

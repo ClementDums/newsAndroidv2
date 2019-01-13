@@ -1,6 +1,9 @@
-package com.clt.dumas.clem.news.database;
+package com.clt.dumas.clem.news.helpers;
 
 import android.content.Context;
+
+import com.clt.dumas.clem.news.database.NewsDatabase;
+
 import androidx.room.Room;
 import bolts.Task;
 

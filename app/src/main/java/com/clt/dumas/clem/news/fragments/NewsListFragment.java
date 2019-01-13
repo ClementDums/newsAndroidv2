@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 
 import com.clt.dumas.clem.news.R;
 import com.clt.dumas.clem.news.adapters.NewsAdapter;
+import com.clt.dumas.clem.news.database.NewsDatabase;
+import com.clt.dumas.clem.news.helpers.DatabaseHelper;
 import com.clt.dumas.clem.news.listeners.NewsListener;
 import com.clt.dumas.clem.news.model.News;
 import com.clt.dumas.clem.news.viewmodels.NewsViewModel;
@@ -17,13 +19,18 @@ import com.clt.dumas.clem.news.viewmodels.NewsViewModel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Callable;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
+import bolts.Continuation;
+import bolts.Task;
 
 public class NewsListFragment extends Fragment implements NewsListener {
     private List<News> newsList = new ArrayList<>();
@@ -43,18 +50,18 @@ public class NewsListFragment extends Fragment implements NewsListener {
         View view = inflater.inflate(R.layout.news_list_fragment, container, false);
         init(view);
 
-
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        model.getnews().observe(this, newsList->{
-            adapter.setNewsList(newsList);
-            adapter.notifyDataSetChanged();
-
-            model.saveNews(newsList);
+        model.getnews().observe(this, new Observer<List<News>>() {
+            @Override
+            public void onChanged(List<News> newsList) {
+                adapter.setNewsList(newsList);
+                adapter.notifyDataSetChanged();
+            }
         });
     }
 
@@ -67,8 +74,27 @@ public class NewsListFragment extends Fragment implements NewsListener {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+//        saveNews(newsList);
     }
 
+
+    public void saveNews(final List<News> newsList){
+        Task.callInBackground(new Callable<Object>() {
+            public List<News> call(){
+                NewsDatabase db = Room.databaseBuilder(getContext(),NewsDatabase.class, "news-db").build();
+                db.newsDao().insertAll(newsList);
+                List<News> news = db.newsDao().getAll();
+                System.out.println("eee"+news);
+                return news;
+            }
+        }).continueWith(new Continuation<Object, Object>() {
+
+            @Override
+            public Void then(Task<Object> task) throws Exception {
+                return null;
+            }
+        },Task.UI_THREAD_EXECUTOR);
+    }
 
     @Override
     public void onShare(News news) {
@@ -99,7 +125,5 @@ public class NewsListFragment extends Fragment implements NewsListener {
             transaction.addToBackStack(null);
             transaction.commit();
         }
-
-
     }
 }
