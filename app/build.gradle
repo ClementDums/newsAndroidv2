@@ -11,12 +11,10 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField 'String', "ApiKey", newsApiKey
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField 'String', "ApiKey", newsApiKey
         }
     }
     compileOptions {

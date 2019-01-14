@@ -1,7 +1,5 @@
 package com.clt.dumas.clem.news.networks;
 
-import com.clt.dumas.clem.news.QueryResult;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

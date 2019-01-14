@@ -2,10 +2,8 @@ package com.clt.dumas.clem.news.viewmodels;
 
 import android.support.annotation.NonNull;
 
-import com.clt.dumas.clem.news.BuildConfig;
-import com.clt.dumas.clem.news.MainActivity;
-import com.clt.dumas.clem.news.QueryResult;
-import com.clt.dumas.clem.news.database.NewsDatabase;
+import com.clt.dumas.clem.news.networks.QueryResult;
+import com.clt.dumas.clem.news.constants.Constants;
 import com.clt.dumas.clem.news.helpers.DatabaseHelper;
 import com.clt.dumas.clem.news.helpers.InternetStatusHelper;
 import com.clt.dumas.clem.news.model.News;
@@ -17,7 +15,6 @@ import java.util.concurrent.Callable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.room.Room;
 import bolts.Continuation;
 import bolts.Task;
 import retrofit2.Call;
@@ -67,7 +64,7 @@ public class NewsViewModel extends ViewModel {
                 .build();
 
         ApikeyService service = retrofit.create(ApikeyService.class);
-        final Call<QueryResult> repos = service.listRepos("us", BuildConfig.ApiKey);
+        final Call<QueryResult> repos = service.listRepos("us", Constants.getApiKey());
 
         repos.enqueue(new Callback<QueryResult>() {
             @Override

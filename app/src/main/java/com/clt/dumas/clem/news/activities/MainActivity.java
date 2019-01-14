@@ -1,7 +1,8 @@
-package com.clt.dumas.clem.news;
+package com.clt.dumas.clem.news.activities;
 
 import android.os.Bundle;
 
+import com.clt.dumas.clem.news.R;
 import com.clt.dumas.clem.news.helpers.DatabaseHelper;
 import com.clt.dumas.clem.news.fragments.NewsListFragment;
 import com.clt.dumas.clem.news.helpers.InternetStatusHelper;

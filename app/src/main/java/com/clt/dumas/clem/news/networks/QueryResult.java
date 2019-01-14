@@ -1,4 +1,4 @@
-package com.clt.dumas.clem.news;
+package com.clt.dumas.clem.news.networks;
 
 import com.clt.dumas.clem.news.model.News;
 
