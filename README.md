@@ -1,10 +1,10 @@
-#Newsletter Android
+﻿# Newsletter Android
 
-##Installation
+## Installation
 ```
 
 Clonez le projet et ouvrez le avec Android Studio.
-
-##Mise en place
 ```
-Dans la classe Constantes, ajouter votre cl� d'API.
+## Mise en place
+```
+Dans la classe Constantes, ajouter votre clé d'API. 
