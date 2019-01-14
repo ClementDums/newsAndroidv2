@@ -96,6 +96,7 @@ public class NewsViewModel extends ViewModel {
     public void insertDb(final List<News> newsList) {
         Task.callInBackground(new Callable<Object>() {
             public List<News> call() {
+                DatabaseHelper.getDatabase().newsDao().nukeTable();
                 DatabaseHelper.getDatabase().newsDao().insertAll(newsList);
                 return null;
             }
