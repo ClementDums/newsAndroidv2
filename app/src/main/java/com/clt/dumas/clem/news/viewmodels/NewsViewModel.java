@@ -2,6 +2,9 @@ package com.clt.dumas.clem.news.viewmodels;
 
 import android.support.annotation.NonNull;
 
+import com.clt.dumas.clem.news.database.FavDatabase;
+import com.clt.dumas.clem.news.database.NewsDatabase;
+import com.clt.dumas.clem.news.helpers.FavDatabaseHelper;
 import com.clt.dumas.clem.news.networks.QueryResult;
 import com.clt.dumas.clem.news.constants.Constants;
 import com.clt.dumas.clem.news.helpers.DatabaseHelper;
@@ -39,6 +42,9 @@ public class NewsViewModel extends ViewModel {
     }
 
 
+    /**
+     * @return
+     */
     public LiveData<List<News>> getnews() {
 
         if (newsLiveData == null) {
@@ -48,6 +54,9 @@ public class NewsViewModel extends ViewModel {
         return newsLiveData;
     }
 
+    /**
+     *
+     */
     void loadNews() {
         if (!InternetStatusHelper.isOnLine()) {
             loadNewsDb();
@@ -56,7 +65,10 @@ public class NewsViewModel extends ViewModel {
         loadNewsApi();
     }
 
-    /**Load news from API**/
+    /**
+     * Load news from API
+     **/
+
     private void loadNewsApi() {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
@@ -90,6 +102,9 @@ public class NewsViewModel extends ViewModel {
     }
 
     /**Insert news in database**/
+    /**
+     * @param newsList
+     */
     public void insertDb(final List<News> newsList) {
         Task.callInBackground(new Callable<Object>() {
             public List<News> call() {
@@ -107,7 +122,10 @@ public class NewsViewModel extends ViewModel {
     }
 
 
-    /**Load news from database**/
+    /**
+     * Load news from database
+     **/
+
     public void loadNewsDb() {
         Task.callInBackground(new Callable<Object>() {
             public List<News> call() {
@@ -124,12 +142,76 @@ public class NewsViewModel extends ViewModel {
         }, Task.UI_THREAD_EXECUTOR);
     }
 
+    /**
+     * @param news
+     * @param isLiked
+     */
+    public void setFav(News news, boolean isLiked) {
+        if (!isLiked) {
+            addFav(news);
+            return;
+        }
+        removeFav(news);
 
-    private void emptyDb() {
+    }
 
-        Task.callInBackground(() -> {
-            DatabaseHelper.getDatabase().newsDao().nukeTable();
-            return null;
-        });
+    /**
+     * @param news
+     */
+    public void addFav(News news) {
+        updateNewsDb(news);
+        addtoFav(news);
+    }
+
+    private void updateNewsDb(News news) {
+        Task.callInBackground(new Callable<Object>() {
+            public List<News> call() {
+                int myId = news.getId();
+                DatabaseHelper.getDatabase().newsDao().updateById(myId);
+                return null;
+            }
+        }).continueWith(new Continuation<Object, Object>() {
+
+            @Override
+            public Void then(Task<Object> task) throws Exception {
+                return null;
+            }
+        }, Task.UI_THREAD_EXECUTOR);
+
+    }
+
+    private void addtoFav(News news) {
+        Task.callInBackground(new Callable<Object>() {
+            public List<News> call() {
+                FavDatabaseHelper.getDatabase().newsDao().insertFav(news);
+                return null;
+            }
+        }).continueWith(new Continuation<Object, Object>() {
+
+            @Override
+            public Void then(Task<Object> task) throws Exception {
+                return null;
+            }
+        }, Task.UI_THREAD_EXECUTOR);
+
+    }
+
+    /**
+     * @param news
+     */
+    private void removeFav(News news) {
+        Task.callInBackground(new Callable<Object>() {
+            public List<News> call() {
+                FavDatabaseHelper.getDatabase().newsDao().removeById(news.getId());
+                return null;
+            }
+        }).continueWith(new Continuation<Object, Object>() {
+
+            @Override
+            public Void then(Task<Object> task) throws Exception {
+                return null;
+            }
+        }, Task.UI_THREAD_EXECUTOR);
+
     }
 }

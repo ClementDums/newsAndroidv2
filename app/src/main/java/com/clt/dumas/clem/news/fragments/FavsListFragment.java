@@ -7,20 +7,16 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.clt.dumas.clem.news.R;
 import com.clt.dumas.clem.news.adapters.NewsAdapter;
-import com.clt.dumas.clem.news.database.NewsDatabase;
-import com.clt.dumas.clem.news.helpers.DatabaseHelper;
 import com.clt.dumas.clem.news.listeners.NewsListener;
 import com.clt.dumas.clem.news.model.News;
-import com.clt.dumas.clem.news.viewmodels.NewsViewModel;
+import com.clt.dumas.clem.news.viewmodels.FavsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Callable;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -29,16 +25,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
-import bolts.Continuation;
-import bolts.Task;
 
-public class NewsListFragment extends Fragment implements NewsListener {
+public class FavsListFragment extends Fragment implements NewsListener {
     private List<News> newsList = new ArrayList<>();
     private NewsAdapter adapter;
-    private NewsViewModel model;
+    private FavsViewModel model;
 
-    /**
+    /***
      *
      * @param savedInstanceState
      */
@@ -47,7 +40,7 @@ public class NewsListFragment extends Fragment implements NewsListener {
         super.onCreate(savedInstanceState);
 
         //creer nouveau viewmodel ou charger un existant
-        model= ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(NewsViewModel.class);
+        model= ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(FavsViewModel.class);
 
     }
 
@@ -59,7 +52,7 @@ public class NewsListFragment extends Fragment implements NewsListener {
      * @return
      */
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.news_list_fragment, container, false);
+        View view = inflater.inflate(R.layout.favs_list_fragment, container, false);
         init(view);
 
         return view;
@@ -72,7 +65,7 @@ public class NewsListFragment extends Fragment implements NewsListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        model.getnews().observe(this, new Observer<List<News>>() {
+        model.getFavs().observe(this, new Observer<List<News>>() {
             @Override
             public void onChanged(List<News> newsList) {
                 adapter.setNewsList(newsList);
@@ -85,23 +78,15 @@ public class NewsListFragment extends Fragment implements NewsListener {
      *
      * @param view
      */
-
     private void init(View view) {
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_fav);
         adapter = new NewsAdapter(newsList, this);
         //Associer adapteur et orientation elements
-        ImageView favPage = view.findViewById(R.id.fav);
-        favPage.bringToFront();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        favPage.setOnClickListener(v -> {
-            Fragment favFragment = new FavsListFragment();
-            replaceFragment(favFragment);
-        });
     }
-
 
     /**
      *
@@ -132,10 +117,12 @@ public class NewsListFragment extends Fragment implements NewsListener {
     /**
      *
      * @param news
-     * @param isLiked
+     * @param isliked
      */
-    public void onLike(News news, boolean isLiked){
-        model.setFav(news,isLiked);
+    @Override
+    public void onLike(News news, boolean isliked) {
+        model.removeFav(news);
+
     }
 
     /**

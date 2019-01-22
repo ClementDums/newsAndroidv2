@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.clt.dumas.clem.news.R;
 import com.clt.dumas.clem.news.helpers.DatabaseHelper;
 import com.clt.dumas.clem.news.fragments.NewsListFragment;
+import com.clt.dumas.clem.news.helpers.FavDatabaseHelper;
 import com.clt.dumas.clem.news.helpers.InternetStatusHelper;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
         InternetStatusHelper.init(this);
         DatabaseHelper.init(this);
+        FavDatabaseHelper.init(this);
 
         //CALL FRAGMENTS
 

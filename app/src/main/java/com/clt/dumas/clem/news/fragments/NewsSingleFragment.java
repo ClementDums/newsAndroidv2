@@ -47,7 +47,7 @@ public class NewsSingleFragment extends Fragment {
         model.getSelected().observe(this,news -> {
             titleTv.setText(news.getTitle());
             descriptionTv.setText(news.getDescription());
-            Picasso.get().load(news.getUrlToImage()).into(image);
+            Picasso.get().load(news.getUrlToImage()).fit().centerCrop().into(image);
         });
     }
 

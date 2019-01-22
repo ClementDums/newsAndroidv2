@@ -20,17 +20,31 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     private List<News> newsList;
     private NewsListener listener;
 
+    /**
+     *
+     * @param newsList
+     * @param listener
+     */
     public NewsAdapter(List<News> newsList, NewsListener listener) {
 
         this.newsList = newsList;
         this.listener = listener;
     }
 
+    /**
+     *
+     * @param newsList
+     */
     public void setNewsList(List<News> newsList) {
         this.newsList = newsList;
     }
 
-
+    /**
+     *
+     * @param viewGroup
+     * @param position
+     * @return
+     */
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
@@ -39,11 +53,20 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         return new MyViewHolder(view);
     }
 
+    /**
+     *
+     * @param myViewHolder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
         myViewHolder.bind(newsList.get(position));
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getItemCount() {
         return newsList.size();
@@ -56,6 +79,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         ImageView share;
         ImageView like;
 
+        /**
+         *
+         * @param itemView
+         */
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.name);
@@ -65,7 +92,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             like = itemView.findViewById(R.id.like);
         }
 
+
+        /**
+         *
+         * @param news
+         */
         void bind(final News news) {
+
 
             title.setText(news.getTitle());
             description.setText(news.getDescription());
@@ -74,6 +107,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             share.setOnClickListener(v -> listener.onShare(news));
 
             itemView.setOnClickListener(v -> listener.onSelect(news));
+
+
             if (news.isLike()) {
                 like.setImageResource(R.drawable.ic_like_true);
             } else {
@@ -81,14 +116,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             }
 
             like.setOnClickListener(v -> {
-                if (!news.isLike()) {
+                boolean isLiked = news.isLike();
+                if (!isLiked) {
                     news.setLike(true);
                     like.setImageResource(R.drawable.ic_like_true);
 
                 } else {
                     news.setLike(false);
                     like.setImageResource(R.drawable.ic_action_name);
+
                 }
+                listener.onLike(news,isLiked);
             });
 
         }
