@@ -26,6 +26,9 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * @eamose commentaires
+ */
 public class FavsListFragment extends Fragment implements NewsListener {
     private List<News> newsList = new ArrayList<>();
     private NewsAdapter adapter;
@@ -65,6 +68,20 @@ public class FavsListFragment extends Fragment implements NewsListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        //@eamosse utilise les expressions lambda
+        /**
+         * il est préférable d'observer la liste des articles avec getViewLifecycleOwner() au lieu de this
+         * pourquoi?
+         * en this faire référence au fragment qui ne se détruit pas tout de suite et par conséquent
+         * tu continues d'obsrver les changements sur cette liste même quand la vue est détruite
+         * par contre, si ton tu observes avec getViewLifecycleOwner(), quand la vue est détruite
+         * comme par exemple, lors d'un changement de frgment, ton fragment arrête d'observer les
+         * changements sur ce livedata.
+         * Alors, à quel moment faut-il observer avec this ou avec getViewLifecycleOwner()??
+         * La réponse est simple:
+         * 1. si les changments nécessitent de modifier la vue, utilise getViewLifecycleOwner()
+         * 2. sinon, utilise this
+         */
         model.getFavs().observe(this, new Observer<List<News>>() {
             @Override
             public void onChanged(List<News> newsList) {
@@ -97,6 +114,7 @@ public class FavsListFragment extends Fragment implements NewsListener {
         Uri image = Uri.parse(news.getUrlToImage());
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
+        //@eamosse partage le lien de préférence
         sendIntent.putExtra(Intent.EXTRA_TEXT, news.getTitle() + "  " + news.getDescription() + "  " + image);
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
@@ -121,6 +139,7 @@ public class FavsListFragment extends Fragment implements NewsListener {
      */
     @Override
     public void onLike(News news, boolean isliked) {
+        //@eamosse le nom de la méthode ne correspond pas à ce qu'il doit faire
         model.removeFav(news);
 
     }

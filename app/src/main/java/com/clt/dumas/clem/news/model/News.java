@@ -7,6 +7,10 @@ import android.support.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+/**
+ * @eamosse
+ * Attention aux espaces en trop
+ */
 @Entity
 
 public class News implements Parcelable {

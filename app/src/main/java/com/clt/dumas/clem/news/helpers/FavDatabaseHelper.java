@@ -7,6 +7,10 @@ import com.clt.dumas.clem.news.database.FavDatabase;
 import androidx.room.Room;
 import bolts.Task;
 
+/**
+ * @eamosse
+ * Cette classe est reddondante
+ */
 public class FavDatabaseHelper {
     private static FavDatabase database;
 

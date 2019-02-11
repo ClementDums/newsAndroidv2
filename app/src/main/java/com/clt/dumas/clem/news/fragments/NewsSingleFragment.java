@@ -18,6 +18,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+/**
+ * @eamosse
+ * Attention au formatage - espace entre attributs et méthodes
+ */
 public class NewsSingleFragment extends Fragment {
     private NewsViewModel model;
     private TextView titleTv;

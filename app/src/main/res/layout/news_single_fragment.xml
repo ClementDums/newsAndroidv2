@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- @eamosse
+1° utilise les dimens
+-->
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/fragmentSingle"
     xmlns:tools="http://schemas.android.com/tools"

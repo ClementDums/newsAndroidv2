@@ -26,7 +26,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
+/**
+ * @eamosse
+ * 1° Commentaires (classe et méthode)
+ * 2° attention aux espaces en trop entre les lignes
+ * 3° utilise les expressions lambda
+ */
 public class NewsViewModel extends ViewModel {
     private MutableLiveData<List<News>> newsLiveData;
     private MutableLiveData<News> selected = new MutableLiveData<>();
@@ -89,6 +94,7 @@ public class NewsViewModel extends ViewModel {
 
                 newsLiveData.setValue(news);
                 insertDb(newsLiveData.getValue());
+                //pas besoin de recharger les données en db après les avoir insérées
                 loadNewsDb();
             }
 
@@ -112,6 +118,7 @@ public class NewsViewModel extends ViewModel {
                 DatabaseHelper.getDatabase().newsDao().insertAll(newsList);
                 return null;
             }
+            //@eamosse le bloc continuation ne fait rien, tu pourrais le zapper
         }).continueWith(new Continuation<Object, Object>() {
 
             @Override
@@ -133,6 +140,7 @@ public class NewsViewModel extends ViewModel {
                 newsLiveData.postValue(news);
                 return news;
             }
+            //@eamosse le bloc continuation ne fait rien, tu pourrais le zapper
         }).continueWith(new Continuation<Object, Object>() {
 
             @Override
@@ -170,6 +178,7 @@ public class NewsViewModel extends ViewModel {
                 DatabaseHelper.getDatabase().newsDao().updateById(myId);
                 return null;
             }
+            //@eamosse le bloc continuation ne fait rien, tu pourrais le zapper
         }).continueWith(new Continuation<Object, Object>() {
 
             @Override
@@ -186,6 +195,7 @@ public class NewsViewModel extends ViewModel {
                 FavDatabaseHelper.getDatabase().newsDao().insertFav(news);
                 return null;
             }
+            //@eamosse le bloc continuation ne fait rien, tu pourrais le zapper
         }).continueWith(new Continuation<Object, Object>() {
 
             @Override
@@ -205,6 +215,7 @@ public class NewsViewModel extends ViewModel {
                 FavDatabaseHelper.getDatabase().newsDao().removeById(news.getId());
                 return null;
             }
+            //@eamosse le bloc continuation ne fait rien, tu pourrais le zapper
         }).continueWith(new Continuation<Object, Object>() {
 
             @Override

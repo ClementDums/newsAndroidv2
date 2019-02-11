@@ -33,6 +33,11 @@ import androidx.room.Room;
 import bolts.Continuation;
 import bolts.Task;
 
+/**
+ * @eamosse
+ * 1° Commentaires
+ * 2° attentions aux codes morts (e.g. import non utilisé)
+ */
 public class NewsListFragment extends Fragment implements NewsListener {
     private List<News> newsList = new ArrayList<>();
     private NewsAdapter adapter;

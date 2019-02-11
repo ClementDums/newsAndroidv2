@@ -14,7 +14,7 @@ public interface NewsDao {
     @Query("SELECT * FROM news")
     List<News> getAll();
 
-
+//@eamosse enlevé le code mort
 
 //    @Query("SELECT * FROM news WHERE id = :id")
 //    News findByIds(int[] ids);

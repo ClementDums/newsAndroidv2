@@ -8,9 +8,15 @@ import androidx.room.Room;
 import bolts.Task;
 
 
-
+/**
+ * @eamosse
+ * 1° Commentaires - dis ce que fait la classe
+ */
 public class DatabaseHelper {
     private static NewsDatabase database;
+//    TABLE NAMES
+    private static final String TABLE_NEWS = "news";
+    private static final String TABLE_FAVS = "favs";
     public static void init(Context context){
 
         Task.callInBackground(() -> {

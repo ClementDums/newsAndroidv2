@@ -6,6 +6,10 @@ import android.net.NetworkInfo;
 
 import static androidx.core.content.ContextCompat.getSystemService;
 
+/**
+ * @author eamosse
+ * Dis ce que fait cette classe
+ */
 public class InternetStatusHelper {
     private static boolean onLine;
     public static void  init(Context context){

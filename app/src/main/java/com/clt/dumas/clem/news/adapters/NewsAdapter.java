@@ -21,7 +21,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     private NewsListener listener;
 
     /**
-     *
      * @param newsList
      * @param listener
      */
@@ -72,6 +71,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         return newsList.size();
     }
 
+    /**
+     * @eamosse Utilise des noms de classe plus parlant
+     */
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         TextView description;
@@ -94,7 +96,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
 
         /**
-         *
+         * @eamosse -commentaires sur la fonction
          * @param news
          */
         void bind(final News news) {
@@ -116,6 +118,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             }
 
             like.setOnClickListener(v -> {
+                //@eamosse tu ne devrais pas changer le statut avant la transaction en bd
                 boolean isLiked = news.isLike();
                 if (!isLiked) {
                     news.setLike(true);

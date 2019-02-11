@@ -11,6 +11,11 @@ import com.clt.dumas.clem.news.helpers.InternetStatusHelper;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+/**
+ * @eamosse
+ * 1° commente ta classe
+ * 2° attention aux espaces en trop entre les instructions
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override

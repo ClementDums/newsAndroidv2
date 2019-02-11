@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- @eamosse
+1° codes de couleurs dans colors
+2° dimensions dans dimens
+3° il n'y a pas de contraintes sur le recycler view
+-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"

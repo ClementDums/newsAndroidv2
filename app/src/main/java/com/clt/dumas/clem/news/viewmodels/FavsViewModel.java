@@ -58,6 +58,7 @@ public class FavsViewModel extends ViewModel {
     }
     public  void removeFav(News news){
 
+        //@eamosse utilise les expressions lambda
         Task.callInBackground(new Callable<Object>() {
             public List<News> call() {
                 FavDatabaseHelper.getDatabase().newsDao().removeById(news.getId());
