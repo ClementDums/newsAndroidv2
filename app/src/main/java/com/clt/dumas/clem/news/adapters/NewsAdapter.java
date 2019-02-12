@@ -16,7 +16,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
     private List<News> newsList;
     private NewsListener listener;
 
@@ -46,20 +46,20 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
      */
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
+    public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View view = inflater.inflate(R.layout.news_list_item, viewGroup, false);
-        return new MyViewHolder(view);
+        return new NewsViewHolder(view);
     }
 
     /**
      *
-     * @param myViewHolder
+     * @param NewsViewHolder
      * @param position
      */
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
-        myViewHolder.bind(newsList.get(position));
+    public void onBindViewHolder(@NonNull NewsViewHolder NewsViewHolder, int position) {
+        NewsViewHolder.bind(newsList.get(position));
     }
 
     /**
@@ -71,10 +71,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         return newsList.size();
     }
 
-    /**
-     * @eamosse Utilise des noms de classe plus parlant
-     */
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    class NewsViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         TextView description;
         ImageView image;
@@ -85,7 +82,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
          *
          * @param itemView
          */
-        MyViewHolder(@NonNull View itemView) {
+        NewsViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.name);
             description = itemView.findViewById(R.id.description);
@@ -94,23 +91,21 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             like = itemView.findViewById(R.id.like);
         }
 
-
         /**
-         * @eamosse -commentaires sur la fonction
+         * Set news Content and onClick
          * @param news
          */
         void bind(final News news) {
 
-
+            //Set Content
             title.setText(news.getTitle());
             description.setText(news.getDescription());
             Picasso.get().load(news.getUrlToImage()).fit().centerCrop().into(image);
-
+            //share onClick
             share.setOnClickListener(v -> listener.onShare(news));
-
+            //news onClick
             itemView.setOnClickListener(v -> listener.onSelect(news));
-
-
+            //like onClick
             if (news.isLike()) {
                 like.setImageResource(R.drawable.ic_like_true);
             } else {
@@ -118,20 +113,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             }
 
             like.setOnClickListener(v -> {
-                //@eamosse tu ne devrais pas changer le statut avant la transaction en bd
                 boolean isLiked = news.isLike();
                 if (!isLiked) {
-                    news.setLike(true);
                     like.setImageResource(R.drawable.ic_like_true);
-
                 } else {
-                    news.setLike(false);
                     like.setImageResource(R.drawable.ic_action_name);
-
                 }
                 listener.onLike(news,isLiked);
             });
-
         }
     }
 }

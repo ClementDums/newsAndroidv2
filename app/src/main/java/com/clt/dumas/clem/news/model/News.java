@@ -7,12 +7,7 @@ import android.support.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-/**
- * @eamosse
- * Attention aux espaces en trop
- */
-@Entity
-
+@Entity(tableName = "News")
 public class News implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     public int id;
@@ -21,12 +16,21 @@ public class News implements Parcelable {
     private String description;
     private String urlToImage;
     private String publishedAt;
-
     public String getPublishedAt() {
         return publishedAt;
     }
 
-    public void setPublishedAt(String publishedAt) {
+    /**
+     *
+     * @param title
+     * @param description
+     * @param urlToImage
+     * @param publishedAt
+     */
+    public News(String title, String description, String urlToImage, String publishedAt) {
+        this.title = title;
+        this.description = description;
+        this.urlToImage = urlToImage;
         this.publishedAt = publishedAt;
     }
 
@@ -46,21 +50,9 @@ public class News implements Parcelable {
         this.id = id;
     }
 
-    public News(String title, String description, String urlToImage, String publishedAt) {
-        this.title = title;
-        this.description = description;
-        this.urlToImage = urlToImage;
-        this.publishedAt = publishedAt;
-    }
-
-
     public String getUrlToImage() {
         return urlToImage;
     }
-
-//    public void setUrlToImage(String urlToImage) {
-//        this.urlToImage = urlToImage;
-//    }
 
     public String getDescription() {
         return description;
@@ -78,12 +70,12 @@ public class News implements Parcelable {
         this.title = title;
     }
 
-
     @NonNull
     @Override
     public String toString() {
         return "News{" +
                 "id=" + id +
+                ", like="+like+
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", urlToImage='" + urlToImage + '\'' +

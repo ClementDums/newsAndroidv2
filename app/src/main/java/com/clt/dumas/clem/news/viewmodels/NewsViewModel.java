@@ -2,9 +2,7 @@ package com.clt.dumas.clem.news.viewmodels;
 
 import android.support.annotation.NonNull;
 
-import com.clt.dumas.clem.news.database.FavDatabase;
-import com.clt.dumas.clem.news.database.NewsDatabase;
-import com.clt.dumas.clem.news.helpers.FavDatabaseHelper;
+import com.clt.dumas.clem.news.model.SavedNews;
 import com.clt.dumas.clem.news.networks.QueryResult;
 import com.clt.dumas.clem.news.constants.Constants;
 import com.clt.dumas.clem.news.helpers.DatabaseHelper;
@@ -192,7 +190,9 @@ public class NewsViewModel extends ViewModel {
     private void addtoFav(News news) {
         Task.callInBackground(new Callable<Object>() {
             public List<News> call() {
-                FavDatabaseHelper.getDatabase().newsDao().insertFav(news);
+                SavedNews savedNews = new SavedNews(news.id);
+                DatabaseHelper.getDatabase().savedDao().insert(savedNews);
+                news.setLike(true);
                 return null;
             }
             //@eamosse le bloc continuation ne fait rien, tu pourrais le zapper
@@ -212,7 +212,8 @@ public class NewsViewModel extends ViewModel {
     private void removeFav(News news) {
         Task.callInBackground(new Callable<Object>() {
             public List<News> call() {
-                FavDatabaseHelper.getDatabase().newsDao().removeById(news.getId());
+                DatabaseHelper.getDatabase().savedDao().removeById(news.getId());
+                news.setLike(false);
                 return null;
             }
             //@eamosse le bloc continuation ne fait rien, tu pourrais le zapper

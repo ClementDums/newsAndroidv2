@@ -9,21 +9,16 @@ import bolts.Task;
 
 
 /**
- * @eamosse
- * 1° Commentaires - dis ce que fait la classe
+ * Build "news-db" database
  */
 public class DatabaseHelper {
     private static NewsDatabase database;
-//    TABLE NAMES
-    private static final String TABLE_NEWS = "news";
-    private static final String TABLE_FAVS = "favs";
     public static void init(Context context){
-
+        //Build Database "news-db"
         Task.callInBackground(() -> {
-            database = Room.databaseBuilder(context,NewsDatabase.class, "news-db").build();
+            database = Room.databaseBuilder(context,NewsDatabase.class, "news-db").fallbackToDestructiveMigration().build();
             return null;
         }).continueWith(task -> null,Task.UI_THREAD_EXECUTOR);
-
     }
     public static NewsDatabase getDatabase(){
         return database;
