@@ -1,7 +1,6 @@
 package com.clt.dumas.clem.news.fragments;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -26,9 +25,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * @eamose commentaires
+ * Fragment Favs list
  */
-//Fragment favourite news
 public class FavsListFragment extends Fragment implements NewsListener {
     private List<News> newsList = new ArrayList<>();
     private NewsAdapter adapter;
@@ -42,11 +40,10 @@ public class FavsListFragment extends Fragment implements NewsListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Create new viewmodel or load one
-        model= ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(FavsViewModel.class);
+        model = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(FavsViewModel.class);
     }
 
     /**
-     *
      * @param inflater
      * @param container
      * @param savedInstanceState
@@ -59,7 +56,6 @@ public class FavsListFragment extends Fragment implements NewsListener {
     }
 
     /**
-     *
      * @param savedInstanceState
      */
     @Override
@@ -85,7 +81,7 @@ public class FavsListFragment extends Fragment implements NewsListener {
     }
 
     /**
-     *Init Recyclerview and adapter
+     * Init Recyclerview and adapter
      * @param view
      */
     private void init(View view) {
@@ -100,7 +96,7 @@ public class FavsListFragment extends Fragment implements NewsListener {
     }
 
     /**
-     *On share news
+     * On share news
      * @param news The news to share
      */
     @Override
@@ -114,7 +110,7 @@ public class FavsListFragment extends Fragment implements NewsListener {
     }
 
     /**
-     *On Select replace with single fragment
+     * On Select replace with single fragment
      * @param news the clicked news
      */
     @Override
@@ -125,7 +121,7 @@ public class FavsListFragment extends Fragment implements NewsListener {
     }
 
     /**
-     *On dislike from Favs
+     * On dislike from Favs
      * @param news
      * @param isliked
      */
@@ -136,7 +132,7 @@ public class FavsListFragment extends Fragment implements NewsListener {
     }
 
     /**
-     *Replace a fragment
+     * Replace a fragment
      * @param someFragment The fragment
      */
     private void replaceFragment(Fragment someFragment) {

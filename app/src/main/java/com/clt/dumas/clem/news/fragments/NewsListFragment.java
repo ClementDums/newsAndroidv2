@@ -1,7 +1,6 @@
 package com.clt.dumas.clem.news.fragments;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -22,13 +21,14 @@ import java.util.Objects;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-//Fragment News list
+/**
+ * Fragment News list
+ */
 public class NewsListFragment extends Fragment implements NewsListener {
     private List<News> newsList = new ArrayList<>();
     private NewsAdapter adapter;
@@ -75,21 +75,22 @@ public class NewsListFragment extends Fragment implements NewsListener {
     }
 
     /**
-     *
+     *Init Recyclerview, adapter and add fav option
      * @param view
      */
-
     private void init(View view) {
         //init recyclerview
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         adapter = new NewsAdapter(newsList, this);
         //Associate adapter and item orientation
         ImageView favPage = view.findViewById(R.id.fav);
+        //bring add fav to first layer
         favPage.bringToFront();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
+        //Set add fav onClick
         favPage.setOnClickListener(v -> {
             Fragment favFragment = new FavsListFragment();
             replaceFragment(favFragment);
