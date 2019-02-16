@@ -5,9 +5,9 @@ import com.clt.dumas.clem.news.model.News;
 import java.util.List;
 
 public class QueryResult {
-    List<News> articles;
-    String status;
-    int totalResults;
+    private List<News> articles;
+    private String status;
+    private int totalResults;
 
     public List<News> getArticles() {
         return articles;

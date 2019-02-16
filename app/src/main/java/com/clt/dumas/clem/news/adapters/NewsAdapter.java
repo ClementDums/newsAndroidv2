@@ -25,13 +25,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
      * @param listener
      */
     public NewsAdapter(List<News> newsList, NewsListener listener) {
-
         this.newsList = newsList;
         this.listener = listener;
     }
 
     /**
-     *
      * @param newsList
      */
     public void setNewsList(List<News> newsList) {
@@ -39,7 +37,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     }
 
     /**
-     *
      * @param viewGroup
      * @param position
      * @return
@@ -53,7 +50,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     }
 
     /**
-     *
      * @param NewsViewHolder
      * @param position
      */
@@ -63,7 +59,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     }
 
     /**
-     *
      * @return
      */
     @Override
@@ -79,7 +74,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         ImageView like;
 
         /**
-         *
          * @param itemView
          */
         NewsViewHolder(@NonNull View itemView) {
@@ -93,10 +87,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         /**
          * Set news Content and onClick
+         *
          * @param news
          */
         void bind(final News news) {
-
             //Set Content
             title.setText(news.getTitle());
             description.setText(news.getDescription());
@@ -114,12 +108,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
             like.setOnClickListener(v -> {
                 boolean isLiked = news.isLike();
+                //if not liked
                 if (!isLiked) {
                     like.setImageResource(R.drawable.ic_like_true);
                 } else {
+                    //if is liked
                     like.setImageResource(R.drawable.ic_action_name);
                 }
-                listener.onLike(news,isLiked);
+                //call listener onlike
+                listener.onLike(news, isLiked);
             });
         }
     }

@@ -25,8 +25,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * @eamosse
- * 1° Commentaires (classe et méthode)
+ * @eamosse 1° Commentaires (classe et méthode)
  * 2° attention aux espaces en trop entre les lignes
  * 3° utilise les expressions lambda
  */
@@ -34,22 +33,18 @@ public class NewsViewModel extends ViewModel {
     private MutableLiveData<List<News>> newsLiveData;
     private MutableLiveData<News> selected = new MutableLiveData<>();
 
-
     public void setSelected(News news) {
         selected.setValue(news);
     }
-
 
     public LiveData<News> getSelected() {
         return selected;
     }
 
-
     /**
      * @return
      */
     public LiveData<List<News>> getnews() {
-
         if (newsLiveData == null) {
             newsLiveData = new MutableLiveData<>();
             loadNews();
@@ -60,7 +55,7 @@ public class NewsViewModel extends ViewModel {
     /**
      *
      */
-    void loadNews() {
+    private void loadNews() {
         if (!InternetStatusHelper.isOnLine()) {
             loadNewsDb();
             return;
@@ -71,7 +66,6 @@ public class NewsViewModel extends ViewModel {
     /**
      * Load news from API
      **/
-
     private void loadNewsApi() {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
@@ -84,68 +78,47 @@ public class NewsViewModel extends ViewModel {
         repos.enqueue(new Callback<QueryResult>() {
             @Override
             public void onResponse(@NonNull Call<QueryResult> call, @NonNull Response<QueryResult> response) {
-
                 List<News> news = null;
                 if (response.body() != null) {
                     news = response.body().getArticles();
                 }
-
-                newsLiveData.setValue(news);
-                insertDb(newsLiveData.getValue());
-                //pas besoin de recharger les données en db après les avoir insérées
+                //Insert if not already in database
+                insertDb(news);
+                //Load other news from db
                 loadNewsDb();
-            }
 
+            }
 
             @Override
             public void onFailure(@NonNull Call<QueryResult> call, @NonNull Throwable t) {
                 System.out.println("REC ERR -" + t.getLocalizedMessage());
             }
         });
-
     }
 
-    /**Insert news in database**/
     /**
      * @param newsList
      */
-    public void insertDb(final List<News> newsList) {
-        Task.callInBackground(new Callable<Object>() {
-            public List<News> call() {
-                DatabaseHelper.getDatabase().newsDao().nukeTable();
-                DatabaseHelper.getDatabase().newsDao().insertAll(newsList);
-                return null;
-            }
-            //@eamosse le bloc continuation ne fait rien, tu pourrais le zapper
-        }).continueWith(new Continuation<Object, Object>() {
-
-            @Override
-            public Void then(Task<Object> task) throws Exception {
-                return null;
-            }
+    //Insert news in database
+    private void insertDb(final List<News> newsList) {
+        Task.callInBackground(() -> {
+            DatabaseHelper.getDatabase().newsDao().insertAll(newsList);
+            return null;
+        }).continueWith(task -> {
+            return null;
         }, Task.UI_THREAD_EXECUTOR);
     }
-
 
     /**
      * Load news from database
      **/
 
     public void loadNewsDb() {
-        Task.callInBackground(new Callable<Object>() {
-            public List<News> call() {
-                List<News> news = DatabaseHelper.getDatabase().newsDao().getAll();
-                newsLiveData.postValue(news);
-                return news;
-            }
-            //@eamosse le bloc continuation ne fait rien, tu pourrais le zapper
-        }).continueWith(new Continuation<Object, Object>() {
-
-            @Override
-            public Void then(Task<Object> task) throws Exception {
-                return null;
-            }
-        }, Task.UI_THREAD_EXECUTOR);
+        Task.callInBackground((Callable<Object>) () -> {
+            List<News> news = DatabaseHelper.getDatabase().newsDao().getAll();
+            newsLiveData.postValue(news);
+            return news;
+        });
     }
 
     /**
@@ -157,73 +130,56 @@ public class NewsViewModel extends ViewModel {
             addFav(news);
             return;
         }
-        removeFav(news);
-
+        removetoFav(news);
     }
 
     /**
      * @param news
      */
-    public void addFav(News news) {
-        updateNewsDb(news);
+    private void addFav(News news) {
+        news.setLike(true);
         addtoFav(news);
+        newsSetLike(news);
     }
 
-    private void updateNewsDb(News news) {
-        Task.callInBackground(new Callable<Object>() {
-            public List<News> call() {
-                int myId = news.getId();
-                DatabaseHelper.getDatabase().newsDao().updateById(myId);
-                return null;
-            }
-            //@eamosse le bloc continuation ne fait rien, tu pourrais le zapper
-        }).continueWith(new Continuation<Object, Object>() {
+    private void removetoFav(News news) {
+        news.setLike(false);
+        removeFav(news);
+        newsRemoveLike(news);
+    }
 
-            @Override
-            public Void then(Task<Object> task) throws Exception {
-                return null;
-            }
-        }, Task.UI_THREAD_EXECUTOR);
+    private void newsSetLike(News news) {
+        Task.callInBackground(() -> {
+            String myTitle = news.getTitle();
+            DatabaseHelper.getDatabase().newsDao().setLike(myTitle);
+            return null;
+        });
+    }
 
+    private void newsRemoveLike(News news) {
+        Task.callInBackground(() -> {
+            String myTitle = news.getTitle();
+            DatabaseHelper.getDatabase().newsDao().removeLike(myTitle);
+            return null;
+        });
     }
 
     private void addtoFav(News news) {
-        Task.callInBackground(new Callable<Object>() {
-            public List<News> call() {
-                SavedNews savedNews = new SavedNews(news.id);
-                DatabaseHelper.getDatabase().savedDao().insert(savedNews);
-                news.setLike(true);
-                return null;
-            }
-            //@eamosse le bloc continuation ne fait rien, tu pourrais le zapper
-        }).continueWith(new Continuation<Object, Object>() {
-
-            @Override
-            public Void then(Task<Object> task) throws Exception {
-                return null;
-            }
-        }, Task.UI_THREAD_EXECUTOR);
-
+        Task.callInBackground(() -> {
+            SavedNews savedNews = new SavedNews(news.getTitle());
+            DatabaseHelper.getDatabase().savedDao().insert(savedNews);
+            return null;
+        });
     }
 
     /**
      * @param news
      */
     private void removeFav(News news) {
-        Task.callInBackground(new Callable<Object>() {
-            public List<News> call() {
-                DatabaseHelper.getDatabase().savedDao().removeById(news.getId());
-                news.setLike(false);
-                return null;
-            }
-            //@eamosse le bloc continuation ne fait rien, tu pourrais le zapper
-        }).continueWith(new Continuation<Object, Object>() {
-
-            @Override
-            public Void then(Task<Object> task) throws Exception {
-                return null;
-            }
-        }, Task.UI_THREAD_EXECUTOR);
-
+        Task.callInBackground(() -> {
+            news.setLike(false);
+            DatabaseHelper.getDatabase().savedDao().removeByTitle(news.getTitle());
+            return null;
+        });
     }
 }

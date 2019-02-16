@@ -11,8 +11,6 @@ import android.widget.ImageView;
 
 import com.clt.dumas.clem.news.R;
 import com.clt.dumas.clem.news.adapters.NewsAdapter;
-import com.clt.dumas.clem.news.database.NewsDatabase;
-import com.clt.dumas.clem.news.helpers.DatabaseHelper;
 import com.clt.dumas.clem.news.listeners.NewsListener;
 import com.clt.dumas.clem.news.model.News;
 import com.clt.dumas.clem.news.viewmodels.NewsViewModel;
@@ -20,7 +18,6 @@ import com.clt.dumas.clem.news.viewmodels.NewsViewModel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Callable;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -29,15 +26,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
-import bolts.Continuation;
-import bolts.Task;
 
-/**
- * @eamosse
- * 1° Commentaires
- * 2° attentions aux codes morts (e.g. import non utilisé)
- */
+
+//Fragment News list
 public class NewsListFragment extends Fragment implements NewsListener {
     private List<News> newsList = new ArrayList<>();
     private NewsAdapter adapter;
@@ -50,10 +41,8 @@ public class NewsListFragment extends Fragment implements NewsListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //creer nouveau viewmodel ou charger un existant
+        //Create new viewmodel or load one
         model= ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(NewsViewModel.class);
-
     }
 
     /**
@@ -66,7 +55,6 @@ public class NewsListFragment extends Fragment implements NewsListener {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.news_list_fragment, container, false);
         init(view);
-
         return view;
     }
 
@@ -77,12 +65,9 @@ public class NewsListFragment extends Fragment implements NewsListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        model.getnews().observe(this, new Observer<List<News>>() {
-            @Override
-            public void onChanged(List<News> newsList) {
-                adapter.setNewsList(newsList);
-                adapter.notifyDataSetChanged();
-            }
+        model.getnews().observe(this, newsList -> {
+            adapter.setNewsList(newsList);
+            adapter.notifyDataSetChanged();
         });
     }
 
@@ -92,9 +77,10 @@ public class NewsListFragment extends Fragment implements NewsListener {
      */
 
     private void init(View view) {
+        //init recyclerview
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         adapter = new NewsAdapter(newsList, this);
-        //Associer adapteur et orientation elements
+        //Associate adapter and item orientation
         ImageView favPage = view.findViewById(R.id.fav);
         favPage.bringToFront();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -106,7 +92,6 @@ public class NewsListFragment extends Fragment implements NewsListener {
             replaceFragment(favFragment);
         });
     }
-
 
     /**
      *

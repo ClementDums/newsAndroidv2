@@ -12,16 +12,14 @@ import androidx.room.Query;
 
 @Dao
 public interface SavedDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(SavedNews news);
 
-
-    @Query("DELETE FROM saved WHERE news_id = :id")
-    void removeById(int id);
+    @Query("DELETE FROM saved WHERE news_title = :title")
+    void removeByTitle(String title);
 
     @Query("SELECT news.* FROM news, saved " +
-            "WHERE news.id == saved.news_id")
-
+            "WHERE news.title == saved.news_title")
     List<News> getAllSaved();
 
 }

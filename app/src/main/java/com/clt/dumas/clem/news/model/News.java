@@ -4,15 +4,17 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import java.util.Objects;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "News")
 public class News implements Parcelable {
-    @PrimaryKey(autoGenerate = true)
-    public int id;
-    private boolean like =false;
+    @PrimaryKey
+    @androidx.annotation.NonNull
     private String title;
+    private boolean like =false;
     private String description;
     private String urlToImage;
     private String publishedAt;
@@ -20,18 +22,21 @@ public class News implements Parcelable {
         return publishedAt;
     }
 
-    /**
-     *
-     * @param title
-     * @param description
-     * @param urlToImage
-     * @param publishedAt
-     */
-    public News(String title, String description, String urlToImage, String publishedAt) {
+    public News(@NonNull String title, boolean like, String description, String urlToImage, String publishedAt) {
         this.title = title;
+        this.like = like;
         this.description = description;
         this.urlToImage = urlToImage;
         this.publishedAt = publishedAt;
+    }
+
+    @NonNull
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(@NonNull String title) {
+        this.title = title;
     }
 
     public boolean isLike() {
@@ -40,14 +45,6 @@ public class News implements Parcelable {
 
     public void setLike(boolean like) {
         this.like = like;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getUrlToImage() {
@@ -62,20 +59,11 @@ public class News implements Parcelable {
         this.description = description;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     @NonNull
     @Override
     public String toString() {
         return "News{" +
-                "id=" + id +
-                ", like="+like+
+                " like="+like+
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", urlToImage='" + urlToImage + '\'' +
@@ -95,7 +83,7 @@ public class News implements Parcelable {
     }
 
     protected News(Parcel in) {
-        this.title = in.readString();
+        this.title = Objects.requireNonNull(in.readString());
         this.description = in.readString();
         this.urlToImage = in.readString();
     }

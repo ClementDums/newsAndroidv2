@@ -6,6 +6,7 @@ import java.util.List;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 @Dao
@@ -20,6 +21,9 @@ public interface NewsDao {
     @Query("DELETE FROM news")
      void nukeTable();
     
-    @Query("UPDATE news SET `like` = 1 WHERE id = :id")
-    void updateById(int id);
+    @Query("UPDATE news SET `like` = 1 WHERE title = :title")
+    void setLike(String title);
+
+    @Query("UPDATE news SET `like` = 0 WHERE title = :title")
+    void removeLike(String title);
 }

@@ -18,15 +18,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-/**
- * @eamosse
- * Attention au formatage - espace entre attributs et méthodes
- */
 public class NewsSingleFragment extends Fragment {
     private NewsViewModel model;
     private TextView titleTv;
     private TextView descriptionTv;
     private ImageView image;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,11 +34,9 @@ public class NewsSingleFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.news_single_fragment, container, false);
-
          titleTv =view.findViewById(R.id.name);
          descriptionTv = view.findViewById(R.id.description);
          image= view.findViewById(R.id.imageSingle);
-
         return view;
     }
 

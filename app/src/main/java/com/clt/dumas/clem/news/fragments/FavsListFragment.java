@@ -21,7 +21,6 @@ import java.util.Objects;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * @eamose commentaires
  */
+//Fragment favourite news
 public class FavsListFragment extends Fragment implements NewsListener {
     private List<News> newsList = new ArrayList<>();
     private NewsAdapter adapter;
@@ -41,10 +41,8 @@ public class FavsListFragment extends Fragment implements NewsListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //creer nouveau viewmodel ou charger un existant
+        //Create new viewmodel or load one
         model= ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(FavsViewModel.class);
-
     }
 
     /**
@@ -57,7 +55,6 @@ public class FavsListFragment extends Fragment implements NewsListener {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.favs_list_fragment, container, false);
         init(view);
-
         return view;
     }
 
@@ -68,7 +65,6 @@ public class FavsListFragment extends Fragment implements NewsListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //@eamosse utilise les expressions lambda
         /**
          * il est préférable d'observer la liste des articles avec getViewLifecycleOwner() au lieu de this
          * pourquoi?
@@ -82,35 +78,34 @@ public class FavsListFragment extends Fragment implements NewsListener {
          * 1. si les changments nécessitent de modifier la vue, utilise getViewLifecycleOwner()
          * 2. sinon, utilise this
          */
-        model.getFavs().observe(this, new Observer<List<News>>() {
-            @Override
-            public void onChanged(List<News> newsList) {
-                adapter.setNewsList(newsList);
-                adapter.notifyDataSetChanged();
-            }
+        model.getFavs().observe(getViewLifecycleOwner(), newsList -> {
+            adapter.setNewsList(newsList);
+            adapter.notifyDataSetChanged();
         });
     }
 
     /**
-     *
+     *Init Recyclerview and adapter
      * @param view
      */
     private void init(View view) {
+        //init recyclerview
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_fav);
+        //init adapter
         adapter = new NewsAdapter(newsList, this);
-        //Associer adapteur et orientation elements
+        //Associate adapter and item orientation
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
     }
 
     /**
-     *
-     * @param news
+     *On share news
+     * @param news The news to share
      */
     @Override
     public void onShare(News news) {
+        //get uri to image
         Uri image = Uri.parse(news.getUrlToImage());
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
@@ -121,19 +116,18 @@ public class FavsListFragment extends Fragment implements NewsListener {
     }
 
     /**
-     *
-     * @param news
+     *On Select replace with single fragment
+     * @param news the clicked news
      */
     @Override
     public void onSelect(News news) {
-
         model.setSelected(news);
         Fragment fragment = new NewsSingleFragment();
         replaceFragment(fragment);
     }
 
     /**
-     *
+     *On dislike from Favs
      * @param news
      * @param isliked
      */
@@ -141,12 +135,11 @@ public class FavsListFragment extends Fragment implements NewsListener {
     public void onLike(News news, boolean isliked) {
         //@eamosse le nom de la méthode ne correspond pas à ce qu'il doit faire
         model.removeFav(news);
-
     }
 
     /**
-     *
-     * @param someFragment
+     *Replace a fragment
+     * @param someFragment The fragment
      */
     private void replaceFragment(Fragment someFragment) {
         FragmentTransaction transaction = null;

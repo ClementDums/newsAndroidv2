@@ -7,8 +7,7 @@ import android.net.NetworkInfo;
 import static androidx.core.content.ContextCompat.getSystemService;
 
 /**
- * @author eamosse
- * Dis ce que fait cette classe
+ * Return is isOnline if internet connection
  */
 public class InternetStatusHelper {
     private static boolean onLine;

@@ -10,7 +10,6 @@ import java.util.concurrent.Callable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import bolts.Continuation;
 import bolts.Task;
 
 public class FavsViewModel extends ViewModel {
@@ -30,21 +29,24 @@ public class FavsViewModel extends ViewModel {
             favsLiveData = new MutableLiveData<>();
         }
         loadFavs();
-
         return favsLiveData;
     }
     /**Load news from database**/
-    public void loadFavs() {
+    private void loadFavs() {
         Task.callInBackground((Callable<Object>) () -> {
             List<News> news = DatabaseHelper.getDatabase().savedDao().getAllSaved();
+            Collections.reverse(news);
             favsLiveData.postValue(news);
             return news;
         });
     }
+
     public  void removeFav(News news){
         Task.callInBackground(() -> {
-            DatabaseHelper.getDatabase().savedDao().removeById(news.getId());
             news.setLike(false);
+            //Remove news from saved news
+            DatabaseHelper.getDatabase().savedDao().removeByTitle(news.getTitle());
+            DatabaseHelper.getDatabase().newsDao().removeLike(news.getTitle());
             return null;
         }).continueWith(task -> {
             loadFavs();
