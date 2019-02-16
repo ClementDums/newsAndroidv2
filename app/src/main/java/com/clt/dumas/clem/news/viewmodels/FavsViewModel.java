@@ -47,6 +47,7 @@ public class FavsViewModel extends ViewModel {
             //Remove news from saved news
             DatabaseHelper.getDatabase().savedDao().removeByTitle(news.getTitle());
             DatabaseHelper.getDatabase().newsDao().removeLike(news.getTitle());
+
             return null;
         }).continueWith(task -> {
             loadFavs();

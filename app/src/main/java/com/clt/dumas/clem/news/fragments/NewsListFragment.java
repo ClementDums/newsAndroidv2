@@ -54,7 +54,10 @@ public class NewsListFragment extends Fragment implements NewsListener {
      */
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.news_list_fragment, container, false);
+        //reload datas
+        model.loadNewsDb();
         init(view);
+
         return view;
     }
 
