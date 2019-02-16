@@ -14,18 +14,21 @@ public class News implements Parcelable {
     @PrimaryKey
     @androidx.annotation.NonNull
     private String title;
-    private boolean like =false;
+    private boolean like = false;
     private String description;
+    private String url;
     private String urlToImage;
     private String publishedAt;
+
     public String getPublishedAt() {
         return publishedAt;
     }
 
-    public News(@NonNull String title, boolean like, String description, String urlToImage, String publishedAt) {
+    public News(@NonNull String title, boolean like, String description, String url, String urlToImage, String publishedAt) {
         this.title = title;
         this.like = like;
         this.description = description;
+        this.url = url;
         this.urlToImage = urlToImage;
         this.publishedAt = publishedAt;
     }
@@ -47,6 +50,8 @@ public class News implements Parcelable {
         this.like = like;
     }
 
+    public String getUrl() { return url; }
+
     public String getUrlToImage() {
         return urlToImage;
     }
@@ -63,10 +68,12 @@ public class News implements Parcelable {
     @Override
     public String toString() {
         return "News{" +
-                " like="+like+
-                ", title='" + title + '\'' +
+                "title='" + title + '\'' +
+                ", like=" + like +
                 ", description='" + description + '\'' +
+                ", url='" + url + '\'' +
                 ", urlToImage='" + urlToImage + '\'' +
+                ", publishedAt='" + publishedAt + '\'' +
                 '}';
     }
 

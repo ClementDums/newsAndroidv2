@@ -97,33 +97,32 @@ public class NewsListFragment extends Fragment implements NewsListener {
     }
 
     /**
-     *
-     * @param news
+     *On share news
+     * @param news The news to share
      */
     @Override
     public void onShare(News news) {
-        Uri image = Uri.parse(news.getUrlToImage());
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, news.getTitle() + "  " + news.getDescription() + "  " + image);
+        //Share url
+        sendIntent.putExtra(Intent.EXTRA_TEXT, news.getUrl());
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
     }
 
     /**
-     *
+     *On Select replace with single fragment
      * @param news
      */
     @Override
     public void onSelect(News news) {
-
         model.setSelected(news);
         Fragment fragment = new NewsSingleFragment();
         replaceFragment(fragment);
     }
 
     /**
-     *
+     *OnClick on like/dislike from Favs
      * @param news
      * @param isLiked
      */
@@ -132,8 +131,8 @@ public class NewsListFragment extends Fragment implements NewsListener {
     }
 
     /**
-     *
-     * @param someFragment
+     *Replace a fragment
+     * @param someFragment The fragment
      */
     private void replaceFragment(Fragment someFragment) {
         FragmentTransaction transaction = null;

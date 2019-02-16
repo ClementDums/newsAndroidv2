@@ -105,12 +105,10 @@ public class FavsListFragment extends Fragment implements NewsListener {
      */
     @Override
     public void onShare(News news) {
-        //get uri to image
-        Uri image = Uri.parse(news.getUrlToImage());
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        //@eamosse partage le lien de préférence
-        sendIntent.putExtra(Intent.EXTRA_TEXT, news.getTitle() + "  " + news.getDescription() + "  " + image);
+        //Share url
+        sendIntent.putExtra(Intent.EXTRA_TEXT, news.getUrl());
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
     }
