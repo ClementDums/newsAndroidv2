@@ -116,7 +116,7 @@ public class FavsListFragment extends Fragment implements NewsListener {
     @Override
     public void onSelect(News news) {
         model.setSelected(news);
-        Fragment fragment = new NewsSingleFragment();
+        Fragment fragment = new FavsSingleFragment();
         replaceFragment(fragment);
     }
 

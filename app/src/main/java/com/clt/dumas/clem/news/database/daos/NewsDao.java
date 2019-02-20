@@ -18,9 +18,6 @@ public interface NewsDao {
     @Insert
     void insertAll(List<News> news);
 
-    @Query("DELETE FROM news")
-     void nukeTable();
-    
     @Query("UPDATE news SET `like` = 1 WHERE title = :title")
     void setLike(String title);
 
