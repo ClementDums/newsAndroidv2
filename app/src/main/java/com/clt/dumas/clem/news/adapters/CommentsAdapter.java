@@ -58,11 +58,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
         CommentsViewHolder(@NonNull View itemView) {
             super(itemView);
-            author = itemView.findViewById(R.id);
-            content = itemView.findViewById(R.id);
+            author = itemView.findViewById(R.id.author);
+            content = itemView.findViewById(R.id.content);
         }
 
-        void bind(final Comments comments) {
+        void bind(Comments comments) {
             author.setText(comments.getAuthor());
             content.setText(comments.getContent());
         }

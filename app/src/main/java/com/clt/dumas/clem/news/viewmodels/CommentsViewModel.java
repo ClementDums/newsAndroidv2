@@ -31,14 +31,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * 3° utilise les expressions lambda
  */
 public class CommentsViewModel extends ViewModel {
-    private MutableLiveData<List<News>> newsLiveData;
-    private MutableLiveData<News> selected = new MutableLiveData<>();
+    private MutableLiveData<List<Comments>> commentsLiveData;
+    private MutableLiveData<Comments> selected = new MutableLiveData<>();
 
-    public void setSelected(News news) {
-        selected.setValue(news);
+    public void setSelected(Comments comments) {
+        selected.setValue(comments);
     }
 
-    public LiveData<News> getSelected() {
+    public LiveData<Comments> getSelected() {
         return selected;
     }
 
@@ -72,9 +72,9 @@ public class CommentsViewModel extends ViewModel {
 
     public void loadCommentsDB() {
         Task.callInBackground((Callable<Object>) () -> {
-            List<News> news = DatabaseHelper.getDatabase().newsDao().getAll();
-            newsLiveData.postValue(news);
-            return news;
+            List<Comments> comments = DatabaseHelper.getDatabase().commentDao().getAll();
+            commentsLiveData.postValue(comments);
+            return comments;
         });
     }
 }
