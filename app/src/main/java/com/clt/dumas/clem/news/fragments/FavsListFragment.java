@@ -131,6 +131,11 @@ public class FavsListFragment extends Fragment implements NewsListener {
         model.removeFav(news);
     }
 
+    @Override
+    public void onComment(News news) {
+
+    }
+
     /**
      * Replace a fragment
      * @param someFragment The fragment

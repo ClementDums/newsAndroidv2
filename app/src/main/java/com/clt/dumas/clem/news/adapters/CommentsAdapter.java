@@ -16,15 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder> {
     private List<Comments> commentsList;
-    private NewsListener listener;
 
     /**
      * @param commentsList
-     * @param listener
+     * @param newsListener
      */
-    public CommentsAdapter(List<Comments> commentsList, NewsListener listener) {
+    public CommentsAdapter(List<Comments> commentsList, NewsListener newsListener) {
         this.commentsList = commentsList;
-        this.listener = listener;
     }
 
     /**
@@ -52,9 +50,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         return commentsList.size();
     }
 
-    class CommentsViewHolder extends RecyclerView.ViewHolder {
-        TextView author;
-        TextView content;
+    static class CommentsViewHolder extends RecyclerView.ViewHolder {
+        static TextView author;
+        static TextView content;
 
         CommentsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -62,7 +60,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             content = itemView.findViewById(R.id.content);
         }
 
-        void bind(Comments comments) {
+        static void bind(Comments comments) {
             author.setText(comments.getAuthor());
             content.setText(comments.getContent());
         }
