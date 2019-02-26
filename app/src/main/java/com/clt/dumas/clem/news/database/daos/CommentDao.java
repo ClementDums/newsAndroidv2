@@ -14,5 +14,5 @@ public interface CommentDao {
     List<Comments>getAll();
 
     @Insert
-    void insertAll(List<Comments> comments);
+    void insert(Comments comment);
 }

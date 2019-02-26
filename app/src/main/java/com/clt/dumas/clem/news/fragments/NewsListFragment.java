@@ -131,6 +131,16 @@ public class NewsListFragment extends Fragment implements NewsListener {
         model.setFav(news,isLiked);
     }
 
+
+    /**
+     *OnComment see comments from an article
+     * @param news
+     */
+    @Override
+    public void onComment(News news) {
+
+    }
+
     /**
      *Replace a fragment
      * @param someFragment The fragment
