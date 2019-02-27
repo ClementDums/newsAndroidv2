@@ -47,7 +47,7 @@ public class CommentsListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.news_list_fragment, container, false);
         //reload datas
-        model.loadCommentsDB();
+        // model.loadCommentsDB();
         init(view);
 
         return view;
