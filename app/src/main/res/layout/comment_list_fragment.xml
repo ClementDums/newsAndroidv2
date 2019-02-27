@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#eee"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/recycler_view">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/addcomment"
+        app:layout_constraintEnd_toEndOf="parent">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <EditText
+        android:id="@+id/author"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Nom"/>
+
+    <EditText
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Commentaire"
+        app:layout_constraintTop_toBottomOf="@+id/author"/>
+
+    <Button
+        android:id="@+id/addcomment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/content"
+        android:text="Ajouter"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

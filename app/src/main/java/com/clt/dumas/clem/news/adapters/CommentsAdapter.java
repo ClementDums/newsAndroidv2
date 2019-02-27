@@ -3,10 +3,11 @@ package com.clt.dumas.clem.news.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.clt.dumas.clem.news.R;
-import com.clt.dumas.clem.news.listeners.NewsListener;
+import com.clt.dumas.clem.news.listeners.CommentsListener;
 import com.clt.dumas.clem.news.model.Comments;
 
 import java.util.List;
@@ -16,12 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder> {
     private List<Comments> commentsList;
+    private CommentsListener listener;
 
     /**
      * @param commentsList
      */
-    public CommentsAdapter(List<Comments> commentsList) {
+    public CommentsAdapter(List<Comments> commentsList, CommentsListener listener) {
         this.commentsList = commentsList;
+        this.listener = listener;
     }
 
     /**
@@ -53,16 +56,25 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     class CommentsViewHolder extends RecyclerView.ViewHolder {
         TextView author;
         TextView content;
+        Button add;
 
         CommentsViewHolder(@NonNull View itemView) {
             super(itemView);
             author = itemView.findViewById(R.id.author);
             content = itemView.findViewById(R.id.content);
+            add = itemView.findViewById(R.id.addcomment);
         }
 
         void bind(Comments comment) {
             author.setText(comment.getAuthor());
             content.setText(comment.getContent());
+
+            add.setOnClickListener(v -> {
+                listener.onAdd(comment);
+            });
+            itemView.setOnClickListener(v -> {
+                listener.onSelect(comment);
+            });
         }
     }
 }

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.clt.dumas.clem.news.R;
 import com.clt.dumas.clem.news.adapters.CommentsAdapter;
+import com.clt.dumas.clem.news.listeners.CommentsListener;
 import com.clt.dumas.clem.news.listeners.NewsListener;
 import com.clt.dumas.clem.news.model.Comments;
 import com.clt.dumas.clem.news.viewmodels.CommentsViewModel;
@@ -21,7 +22,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CommentsListFragment extends Fragment {
+public class CommentsListFragment extends Fragment implements CommentsListener {
     private List<Comments> comments;
     private CommentsAdapter adapter;
     private CommentsViewModel model;
@@ -73,10 +74,24 @@ public class CommentsListFragment extends Fragment {
     private void init(View view) {
         //init recyclerview
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        adapter = new CommentsAdapter(comments);
+        adapter = new CommentsAdapter(comments, this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
 
+    @Override
+    public void onAdd(Comments comment) {
+
+    }
+
+    @Override
+    public void onRemove(Comments comment) {
+
+    }
+
+    @Override
+    public void onSelect(Comments comment) {
+
+    }
 }
