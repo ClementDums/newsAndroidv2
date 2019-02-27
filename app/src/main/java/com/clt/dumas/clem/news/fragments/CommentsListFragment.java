@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.clt.dumas.clem.news.R;
 import com.clt.dumas.clem.news.adapters.CommentsAdapter;
@@ -18,6 +20,7 @@ import java.util.Objects;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +29,9 @@ public class CommentsListFragment extends Fragment implements CommentsListener {
     private List<Comments> comments;
     private CommentsAdapter adapter;
     private CommentsViewModel model;
+    private EditText author;
+    private EditText content;
+    private Button add;
 
     /**
      *
@@ -51,6 +57,9 @@ public class CommentsListFragment extends Fragment implements CommentsListener {
      */
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.comment_list_fragment, container, false);
+        author = view.findViewById(R.id.author);
+        content = view.findViewById(R.id.content);
+        add = view.findViewById(R.id.addcomment);
         //reload datas
         model.loadCommentsDB();
         init(view);
@@ -65,6 +74,7 @@ public class CommentsListFragment extends Fragment implements CommentsListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
     }
 
     /**
@@ -82,7 +92,7 @@ public class CommentsListFragment extends Fragment implements CommentsListener {
 
     @Override
     public void onAdd(Comments comment) {
-
+        // TODO : Add comment
     }
 
     @Override
@@ -92,6 +102,24 @@ public class CommentsListFragment extends Fragment implements CommentsListener {
 
     @Override
     public void onSelect(Comments comment) {
+        model.setSelected(comment);
+        Fragment fragment = new CommentsSingleFragment();
+        replaceFragment(fragment);
+    }
 
+    /**
+     *Replace a fragment
+     * @param someFragment The fragment
+     */
+    private void replaceFragment(Fragment someFragment) {
+        FragmentTransaction transaction = null;
+        if (getFragmentManager() != null) {
+            transaction = getFragmentManager().beginTransaction();
+        }
+        if (transaction != null) {
+            transaction.replace(R.id.fragment_container, someFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
 }

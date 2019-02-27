@@ -57,7 +57,7 @@ public class CommentsViewModel extends ViewModel {
      * @param comment
      */
     // Insert a comment in database
-    private void insertDb(final Comments comment) {
+    public void insertDb(final Comments comment) {
         Task.callInBackground(() -> {
             DatabaseHelper.getDatabase().commentDao().insert(comment);
             return null;
