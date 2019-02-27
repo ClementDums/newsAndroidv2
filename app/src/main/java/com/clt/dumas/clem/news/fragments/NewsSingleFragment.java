@@ -94,7 +94,7 @@ public class NewsSingleFragment extends Fragment implements NewsListener {
     @Override
     public void onComment(News news) {
         model.setSelected(news);
-        Fragment fragment = new CommentsSingleFragment();
+        Fragment fragment = new CommentsListFragment();
         replaceFragment(fragment);
     }
 

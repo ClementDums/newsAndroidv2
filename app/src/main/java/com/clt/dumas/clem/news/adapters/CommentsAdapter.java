@@ -70,7 +70,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             content.setText(comment.getContent());
 
             add.setOnClickListener(v -> {
-                listener.onAdd(comment);
+                listener.onAdd();
             });
             itemView.setOnClickListener(v -> {
                 listener.onSelect(comment);

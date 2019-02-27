@@ -91,8 +91,12 @@ public class CommentsListFragment extends Fragment implements CommentsListener {
     }
 
     @Override
-    public void onAdd(Comments comment) {
-        // TODO : Add comment
+    public void onAdd() {
+        String textAuthor = author.getText() != null ? author.getText().toString(): "anonyme";
+        String contentText = content.getText().toString();
+        Comments comment = new Comments(textAuthor, contentText);
+        model.insertDb(comment);
+        model.loadCommentsDB();
     }
 
     @Override

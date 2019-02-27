@@ -31,7 +31,7 @@ public class Comments implements Parcelable {
 
     // CONSTRUCTOR
 
-    public Comments(int id, String author, String content, @NonNull String news_title) {
+    public Comments(String author, String content) {
         this.id = id;
         this.author = author;
         this.content = content;
