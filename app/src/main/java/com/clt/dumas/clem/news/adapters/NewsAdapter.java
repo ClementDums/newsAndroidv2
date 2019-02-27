@@ -72,6 +72,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         ImageView image;
         ImageView share;
         ImageView like;
+        ImageView comments;
 
         /**
          * @param itemView
@@ -83,6 +84,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             image = itemView.findViewById(R.id.imageNews);
             share = itemView.findViewById(R.id.share);
             like = itemView.findViewById(R.id.like);
+            comments = itemView.findViewById(R.id.comments);
         }
 
         /**
@@ -118,6 +120,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                 //call listener onlike
                 listener.onLike(news, isLiked);
             });
+
+            comments.setOnClickListener(v -> listener.onComment(news));
         }
     }
 }

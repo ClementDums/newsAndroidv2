@@ -16,9 +16,7 @@ import androidx.room.RoomDatabase;
 @Database(entities = {News.class, SavedNews.class}, version = 3)
 
 public abstract class NewsDatabase extends RoomDatabase {
-
     public abstract NewsDao newsDao();
     public abstract SavedDao savedDao();
-    // public abstract CommentDao commentDao();
     // public abstract SavedCommentDao savedCommentDao();
 }

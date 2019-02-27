@@ -2,6 +2,7 @@ package com.clt.dumas.clem.news.viewmodels;
 
 import com.clt.dumas.clem.news.helpers.DatabaseHelper;
 import com.clt.dumas.clem.news.model.News;
+import com.clt.dumas.clem.news.model.SavedNews;
 
 import java.util.Collections;
 import java.util.List;
@@ -54,4 +55,50 @@ public class FavsViewModel extends ViewModel {
             return null;
         }, Task.UI_THREAD_EXECUTOR);
     }
+
+    public void setFav(News news, boolean isLiked) {
+        if (!isLiked) {
+            addFav(news);
+            return;
+        }
+        removetoFav(news);
+    }
+
+    private void removetoFav(News news) {
+        news.setLike(false);
+        removeFav(news);
+        newsRemoveLike(news);
+    }
+
+    private void newsRemoveLike(News news) {
+        Task.callInBackground(() -> {
+            String myTitle = news.getTitle();
+            DatabaseHelper.getDatabase().newsDao().removeLike(myTitle);
+            return null;
+        });
+    }
+
+    private void addFav(News news) {
+        news.setLike(true);
+        addtoFav(news);
+        newsSetLike(news);
+    }
+
+    private void newsSetLike(News news) {
+        Task.callInBackground(() -> {
+            String myTitle = news.getTitle();
+            DatabaseHelper.getDatabase().newsDao().setLike(myTitle);
+            return null;
+        });
+    }
+
+    private void addtoFav(News news) {
+        Task.callInBackground(() -> {
+            SavedNews savedNews = new SavedNews(news.getTitle());
+            DatabaseHelper.getDatabase().savedDao().insert(savedNews);
+            return null;
+        });
+    }
+
+
 }

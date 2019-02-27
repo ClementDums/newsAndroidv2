@@ -133,7 +133,9 @@ public class FavsListFragment extends Fragment implements NewsListener {
 
     @Override
     public void onComment(News news) {
-
+        model.setSelected(news);
+        Fragment fragment = new CommentsSingleFragment();
+        replaceFragment(fragment);
     }
 
     /**
