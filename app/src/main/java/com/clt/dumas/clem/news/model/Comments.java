@@ -35,7 +35,6 @@ public class Comments implements Parcelable {
         this.id = id;
         this.author = author;
         this.content = content;
-        this.news_title = news_title;
     }
 
     public static final Creator<Comments> CREATOR = new Creator<Comments>() {
