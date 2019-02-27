@@ -13,10 +13,11 @@ import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
 // @Database(entities = {News.class,SavedNews.class, Comments.class, SavedComments.class},version = 3)
-@Database(entities = {News.class, SavedNews.class}, version = 3)
+@Database(entities = {News.class, SavedNews.class, Comments.class, SavedComments.class}, version = 5)
 
 public abstract class NewsDatabase extends RoomDatabase {
     public abstract NewsDao newsDao();
     public abstract SavedDao savedDao();
-    // public abstract SavedCommentDao savedCommentDao();
+    public abstract CommentDao commentDao();
+    public abstract SavedCommentDao savedCommentDao();
 }

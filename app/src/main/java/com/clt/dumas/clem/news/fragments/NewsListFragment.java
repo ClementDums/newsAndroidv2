@@ -72,7 +72,6 @@ public class NewsListFragment extends Fragment implements NewsListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
     }
 
     /**
@@ -90,7 +89,6 @@ public class NewsListFragment extends Fragment implements NewsListener {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
         //Set add fav onClick
         favPage.setOnClickListener(v -> {
             Fragment favFragment = new FavsListFragment();

@@ -17,7 +17,7 @@ import androidx.room.PrimaryKey;
         parentColumns = "title",
         childColumns = "news_title"),
         indices = {@Index(value = "news_title", unique = true)},
-        tableName = "Comments"
+        tableName = "comments"
 )
 public class Comments implements Parcelable {
     @PrimaryKey
