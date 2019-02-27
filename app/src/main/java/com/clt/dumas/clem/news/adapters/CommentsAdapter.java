@@ -19,9 +19,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     /**
      * @param commentsList
-     * @param newsListener
      */
-    public CommentsAdapter(List<Comments> commentsList, NewsListener newsListener) {
+    public CommentsAdapter(List<Comments> commentsList) {
         this.commentsList = commentsList;
     }
 
@@ -42,17 +41,18 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     @Override
     public void onBindViewHolder(@NonNull CommentsViewHolder holder, int position) {
-        CommentsViewHolder.bind(commentsList.get(position));
+        holder.bind(commentsList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return commentsList.size();
+        if(commentsList != null) return commentsList.size();
+        else return 0;
     }
 
-    static class CommentsViewHolder extends RecyclerView.ViewHolder {
-        static TextView author;
-        static TextView content;
+    class CommentsViewHolder extends RecyclerView.ViewHolder {
+        TextView author;
+        TextView content;
 
         CommentsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -60,9 +60,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             content = itemView.findViewById(R.id.content);
         }
 
-        static void bind(Comments comments) {
-            author.setText(comments.getAuthor());
-            content.setText(comments.getContent());
+        void bind(Comments comment) {
+            author.setText(comment.getAuthor());
+            content.setText(comment.getContent());
         }
     }
 }

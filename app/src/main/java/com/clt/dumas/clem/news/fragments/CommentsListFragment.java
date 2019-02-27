@@ -35,6 +35,10 @@ public class CommentsListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         // Creates a new viewmodel or load one
         model= ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(CommentsViewModel.class);
+        model.getComments().observe(this, commentsList -> {
+            adapter.setCommentsList(commentsList);
+            adapter.notifyDataSetChanged();
+        });
     }
 
     /**
@@ -45,9 +49,9 @@ public class CommentsListFragment extends Fragment {
      * @return
      */
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.news_list_fragment, container, false);
+        View view = inflater.inflate(R.layout.comment_list_fragment, container, false);
         //reload datas
-        // model.loadCommentsDB();
+        model.loadCommentsDB();
         init(view);
 
         return view;
@@ -60,10 +64,6 @@ public class CommentsListFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        model.getComments().observe(this, commentsList -> {
-            adapter.setCommentsList(commentsList);
-            adapter.notifyDataSetChanged();
-        });
     }
 
     /**
@@ -73,7 +73,7 @@ public class CommentsListFragment extends Fragment {
     private void init(View view) {
         //init recyclerview
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        adapter = new CommentsAdapter(comments, (NewsListener) this);
+        adapter = new CommentsAdapter(comments);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

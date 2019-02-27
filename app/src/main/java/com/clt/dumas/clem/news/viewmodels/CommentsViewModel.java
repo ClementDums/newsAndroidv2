@@ -48,7 +48,7 @@ public class CommentsViewModel extends ViewModel {
     public LiveData<List<Comments>> getComments() {
         if (commentsLiveData == null) {
             commentsLiveData = new MutableLiveData<>();
-            // loadCommentsDB();
+            loadCommentsDB();
         }
         return commentsLiveData;
     }
@@ -59,7 +59,7 @@ public class CommentsViewModel extends ViewModel {
     // Insert a comment in database
     private void insertDb(final Comments comment) {
         Task.callInBackground(() -> {
-            // DatabaseHelper.getDatabase().commentDao().insert(comment);
+            DatabaseHelper.getDatabase().commentDao().insert(comment);
             return null;
         }).continueWith(task -> {
             return null;
@@ -70,11 +70,11 @@ public class CommentsViewModel extends ViewModel {
      * Load comments from database
      **/
 
-    /* public void loadCommentsDB() {
+    public void loadCommentsDB() {
         Task.callInBackground((Callable<Object>) () -> {
             List<Comments> comments = DatabaseHelper.getDatabase().commentDao().getAll();
             commentsLiveData.postValue(comments);
             return comments;
         });
-    } */
+    }
 }

@@ -12,7 +12,6 @@ import com.clt.dumas.clem.news.model.SavedNews;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
-// @Database(entities = {News.class,SavedNews.class, Comments.class, SavedComments.class},version = 3)
 @Database(entities = {News.class, SavedNews.class, Comments.class, SavedComments.class}, version = 5)
 
 public abstract class NewsDatabase extends RoomDatabase {
