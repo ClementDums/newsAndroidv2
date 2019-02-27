@@ -3,27 +3,25 @@ package com.clt.dumas.clem.news.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "Comments")
 public class Comments implements Parcelable {
     @PrimaryKey
-    @androidx.annotation.NonNull
+    @ColumnInfo(name = "id")
     private int id;
     private String author;
     private String content;
 
     // CONSTRUCTOR
 
-    public Comments(@NonNull int id, String author, String content) {
+    public Comments(int id, String author, String content) {
         this.id = id;
         this.author = author;
         this.content = content;
     }
-
-    // GETTERS AND SETTERS
 
     public static final Creator<Comments> CREATOR = new Creator<Comments>() {
         @Override
@@ -37,12 +35,13 @@ public class Comments implements Parcelable {
         }
     };
 
-    @NonNull
+    // GETTERS AND SETTERS
+
     public int getId() {
         return id;
     }
 
-    public void setId(@NonNull int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -62,14 +61,6 @@ public class Comments implements Parcelable {
         this.content = content;
     }
 
-    @Override
-    public String toString() {
-        return "Comments{" +
-                "id=" + id +
-                ", author='" + author + '\'' +
-                ", content='" + content + '\'' +
-                '}';
-    }
 
     @Override
     public int describeContents() {

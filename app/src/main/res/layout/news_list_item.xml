@@ -103,12 +103,10 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_marginTop="40dp"
-               android:layout_marginEnd="8dp"
-               android:layout_marginRight="8dp"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintStart_toStartOf="parent"
+               android:layout_marginLeft="20dp"
+               app:layout_constraintLeft_toRightOf="@+id/like"
                app:layout_constraintTop_toBottomOf="@+id/description"
-               app:srcCompat="@drawable/ic_action_name" />
+               app:srcCompat="@drawable/ic_comment" />
 
 
        </androidx.constraintlayout.widget.ConstraintLayout>
