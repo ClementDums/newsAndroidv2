@@ -10,17 +10,17 @@ import static androidx.core.content.ContextCompat.getSystemService;
  * Return is isOnline if internet connection
  */
 public class InternetStatusHelper {
-    private static boolean onLine;
+    private static boolean isOnline;
     public static void  init(Context context){
 
         ConnectivityManager connectivityManager = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
-        onLine = networkInfo != null && networkInfo.isConnected();
+        isOnline = networkInfo != null && networkInfo.isConnected();
     }
 
-    public static boolean isOnLine(){
-        return onLine;
+    public static boolean isOnline(){
+        return isOnline;
     }
 }

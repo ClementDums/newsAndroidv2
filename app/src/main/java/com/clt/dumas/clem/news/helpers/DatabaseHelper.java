@@ -14,7 +14,6 @@ import bolts.Task;
 public class DatabaseHelper {
     private static NewsDatabase database;
     public static void init(Context context){
-        //Build Database "news-db"
         Task.callInBackground(() -> {
             database = Room.databaseBuilder(context,NewsDatabase.class, "news-db").fallbackToDestructiveMigration().build();
             return null;

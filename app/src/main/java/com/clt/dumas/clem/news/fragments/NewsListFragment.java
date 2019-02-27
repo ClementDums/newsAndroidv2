@@ -25,10 +25,10 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 /**
  * Fragment News list
  */
+
 public class NewsListFragment extends Fragment implements NewsListener {
     private List<News> newsList = new ArrayList<>();
     private NewsAdapter adapter;
@@ -43,6 +43,10 @@ public class NewsListFragment extends Fragment implements NewsListener {
         super.onCreate(savedInstanceState);
         //Create new viewmodel or load one
         model= ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(NewsViewModel.class);
+        model.getnews().observe(this, newsList -> {
+            adapter.setNewsList(newsList);
+            adapter.notifyDataSetChanged();
+        });
     }
 
     /**
@@ -68,10 +72,7 @@ public class NewsListFragment extends Fragment implements NewsListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        model.getnews().observe(this, newsList -> {
-            adapter.setNewsList(newsList);
-            adapter.notifyDataSetChanged();
-        });
+
     }
 
     /**

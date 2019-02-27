@@ -24,11 +24,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * @eamosse 1° Commentaires (classe et méthode)
- * 2° attention aux espaces en trop entre les lignes
- * 3° utilise les expressions lambda
- */
 public class NewsViewModel extends ViewModel {
     private MutableLiveData<List<News>> newsLiveData;
     private MutableLiveData<News> selected = new MutableLiveData<>();
@@ -56,7 +51,7 @@ public class NewsViewModel extends ViewModel {
      *
      */
     private void loadNews() {
-        if (!InternetStatusHelper.isOnLine()) {
+        if (!InternetStatusHelper.isOnline()) {
             loadNewsDb();
             return;
         }
