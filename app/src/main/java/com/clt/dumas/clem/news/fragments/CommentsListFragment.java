@@ -11,7 +11,6 @@ import android.widget.EditText;
 import com.clt.dumas.clem.news.R;
 import com.clt.dumas.clem.news.adapters.CommentsAdapter;
 import com.clt.dumas.clem.news.listeners.CommentsListener;
-import com.clt.dumas.clem.news.listeners.NewsListener;
 import com.clt.dumas.clem.news.model.Comments;
 import com.clt.dumas.clem.news.viewmodels.CommentsViewModel;
 

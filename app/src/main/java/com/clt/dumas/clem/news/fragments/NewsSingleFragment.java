@@ -64,7 +64,6 @@ public class NewsSingleFragment extends Fragment implements NewsListener {
             Picasso.get().load(news.getUrlToImage()).fit().centerCrop().into(image);
             if (!news.isLike()) like.setImageResource(R.drawable.ic_action_name);
             else like.setImageResource(R.drawable.ic_like_true);
-
             share.setOnClickListener(v -> onShare(news));
             like.setOnClickListener(v -> onLike(news, news.isLike()));
             comments.setOnClickListener(v -> onComment(news));

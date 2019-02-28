@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.clt.dumas.clem.news.R;
 import com.clt.dumas.clem.news.viewmodels.CommentsViewModel;
-import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 

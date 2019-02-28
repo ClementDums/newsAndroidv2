@@ -16,7 +16,6 @@ import java.util.concurrent.Callable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import bolts.Continuation;
 import bolts.Task;
 import retrofit2.Call;
 import retrofit2.Callback;

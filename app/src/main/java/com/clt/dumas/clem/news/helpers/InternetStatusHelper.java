@@ -4,8 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
 /**
  * Return is isOnline if internet connection
  */

@@ -127,7 +127,6 @@ public class FavsListFragment extends Fragment implements NewsListener {
      */
     @Override
     public void onLike(News news, boolean isliked) {
-        //@eamosse le nom de la méthode ne correspond pas à ce qu'il doit faire
         model.removeFav(news);
     }
 
