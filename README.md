@@ -18,6 +18,6 @@ Simple, you basically need to do a git clone of this and then open it on your an
 ```
 git clone https://github.com/ClementDums/newsAndroidv2/
 ```
-
+Change the Apikey variable in in Constants/Constants with your own apikey from https://newsapi.org 
 Next, just use your emulator or your phone if you want to test the mobile app.
 Right now, the comments are not properly implemented in the application so please don't be too harsh on us. :(
